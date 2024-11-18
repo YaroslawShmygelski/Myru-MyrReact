@@ -1,9 +1,9 @@
-const App = () => {
+import { ProductCart } from "@components/atoms/molecules/ProductCart/ProductCart";
+
+export default function App() {
   return (
     <>
-      <h1 className="text-xl text-font-bold text-red-500">AAA</h1>
+      <ProductCart />
     </>
   );
-};
-
-export default App;
+}
