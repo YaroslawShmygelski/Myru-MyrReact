@@ -24,6 +24,10 @@ module.exports = {
       colors: {
         customBlue: "#2667FF", // Blue color
         customBlue700: "#1A53CC", // Action blue
+        mainText: "#363842",
+      },
+      fontSize: {
+        xxs: "0.7rem",
       },
     },
   },
