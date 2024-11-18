@@ -1,6 +1,8 @@
-import { AddToCartButton } from "@components/atoms/AddToCartButton/AddToCartButton";
-import { ModalAddToCartWindow } from "@components/atoms/ModalAddToCartWindow/ModalAddToCartWindow";
+import { AddToCartButton } from "@/components/atoms/AddToCartButton/AddToCartButton";
+import { ModalAddToCartWindow } from "@/components/atoms/ModalAddToCartWindow/ModalAddToCartWindow";
 import { useState } from "react";
+import { limitText } from "@/actions/limitText";
+import "./styles.css";
 
 interface ProductCartProps {
   productTitle: string;
@@ -21,26 +23,25 @@ export const ProductCart = ({
     setIsModalOpen(true);
   };
   return (
-    <div className="product-card p-4 m-12 bg-white shadow-md rounded-lg w-64 border-spacing-6">
-      <div className="product-image mb-4 flex justify-center items-center h-40 w-full overflow-hidden bg-white rounded-lg">
+    <div className="product-card">
+      <div className="product-image">
         <img
           src={productImage}
           alt="Product"
           className="max-w-full max-h-full object-contain"
         />
       </div>
-      <div className="product-title flex justify-center items-center pt-0 px-4 pb-4">
+      <div className="product-title ">
         <h2 className="text-mainText text-xl font-semibold">{productTitle}</h2>
       </div>
-      <div className="product-description flex justify-center items-center pt-0 px-4 pb-4">
+      <div className="product-description ">
         <p className="text-xs text-mainText">
-          {productDescription.split(" ").slice(0, 7).join(" ")}
-          {productDescription.split(" ").length > 5 ? "..." : ""}
+          {limitText(productDescription, 7)}
         </p>
       </div>
-      <div className="product-pricing-button flex justify-between items-center px-1 gap-2">
-        <div className="Price text-2xl text-mainText">${productPrice}.00</div>
-        <AddToCartButton />
+      <div className="product-pricing-button">
+        <div className="product-price">${productPrice}.00</div>
+        <AddToCartButton onClick={handleCartButtonClick} />
       </div>
       {isModalOpen && (
         <ModalAddToCartWindow

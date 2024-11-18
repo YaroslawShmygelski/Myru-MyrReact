@@ -1,7 +1,11 @@
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
-export const AddToCartButton = () => {
+interface AddToCartButtonProps {
+  onClick: () => void;
+}
+
+export const AddToCartButton = ({ onClick }: AddToCartButtonProps) => {
   const [effect, setEffect] = useState(false);
 
   return (
@@ -11,13 +15,14 @@ export const AddToCartButton = () => {
           effect ? "animate-press" : ""
         }`}
         onClick={() => {
-          setEffect(true);
+          setEffect(true); // Apply animation effect
+          onClick(); // Trigger the onClick function passed from the parent component
         }}
-        onAnimationEnd={() => setEffect(false)}
+        onAnimationEnd={() => setEffect(false)} // Reset animation effect after it ends
       >
-        {/*Icon*/}
-        <ShoppingCart size={"18px"} />
-        <p className="text-xs"> Add To Cart</p>
+        {/* Icon */}
+        <ShoppingCart size={18} />
+        <p className="text-xs">Add To Cart</p>
       </button>
     </div>
   );

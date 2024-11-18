@@ -1,4 +1,4 @@
-import { ProductCart } from "@components/atoms/molecules/ProductCart/ProductCart";
+import { ProductCart } from "@components/molecules/ProductCart/ProductCart";
 import GlobalStyle from "./style";
 
 export default function App() {

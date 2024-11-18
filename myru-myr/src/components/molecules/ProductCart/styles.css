@@ -1,0 +1,23 @@
+.product-card {
+  @apply p-4 m-12 bg-white shadow-md rounded-lg w-64 border-spacing-6;
+}
+
+.product-image {
+  @apply mb-4 flex justify-center items-center h-40 w-full overflow-hidden bg-white rounded-lg;
+}
+
+.product-title {
+  @apply flex justify-center items-center pt-0 px-4 pb-4;
+}
+
+.product-description {
+  @apply flex justify-center items-center pt-0 px-4 pb-4;
+}
+
+.product-pricing-button {
+  @apply flex justify-between items-center px-1 gap-2;
+}
+
+.product-price {
+  @apply text-2xl text-mainText;
+}
