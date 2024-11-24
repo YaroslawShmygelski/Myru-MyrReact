@@ -26,6 +26,9 @@ module.exports = {
         customBlue700: "#1A53CC", // Action blue
         mainText: "#363842",
       },
+      boxShadow: {
+        bottom: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Bottom shadow only
+      },
       fontSize: {
         xxs: "0.7rem",
       },

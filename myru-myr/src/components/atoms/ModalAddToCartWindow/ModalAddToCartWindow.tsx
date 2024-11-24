@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { AddToCartButton } from "../AddToCartButton/AddToCartButton";
-import { limitText } from "@/actions/limitText";
+import { limitText } from "@/services/actions/limitText";
+import { StyledNumberInput } from "../StyledNumberInput/StyledNumberInput";
+import { motion } from "framer-motion";
 import "@/components/molecules/ProductCart/styles.css";
-import StyledNumberInput from "../StyledNumberInput/StyledNumberInput";
 
 interface ModalAddToCartWindowProps {
   isModalOpen: boolean;
@@ -21,40 +22,67 @@ export const ModalAddToCartWindow = ({
   productDescription,
   productPrice,
 }: ModalAddToCartWindowProps) => {
-  const [quantity, setQuantity] = useState<number>(1);
+  const [quantity, setQuantity] = useState<number>(1); // Default quantity
   const [changedPrice, setChangedPrice] = useState<number>(productPrice);
 
   useEffect(() => {
-    setChangedPrice(productPrice * quantity);
+    // Correct parsing price of product
+    const fixedPrice = parseFloat((productPrice * quantity).toFixed(2));
+    setChangedPrice(fixedPrice);
   }, [quantity, productPrice]);
+
+  useEffect(() => {
+    const handleEscapeClick = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsModalOpen(false); // Close the modal
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener("keydown", handleEscapeClick);
+    } else {
+      document.removeEventListener("keydown", handleEscapeClick);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscapeClick);
+    };
+  }, [isModalOpen, setIsModalOpen]);
 
   if (!isModalOpen) return null;
 
-  const handleQuantityChange = (
-    event:
-      | React.FocusEvent<HTMLInputElement, Element>
-      | React.PointerEvent<Element>
-      | React.KeyboardEvent<Element>,
-    value: number | null
-  ) => {
-    if (value !== null) {
-      setQuantity(value);
+  const handleOutsideClick = (event: React.MouseEvent) => {
+    if (event.target === event.currentTarget) {
+      setIsModalOpen(false);
     }
   };
 
+  const handleInputValue = (value: number) => {
+    setQuantity(value);
+  };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+    <div
+      onClick={handleOutsideClick}
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+    >
+      <motion.div
+        className="bg-white rounded-lg shadow-lg p-6 w-96"
+        onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0.5, y: -200 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 10, y: 50 }}
+        transition={{ duration: 0.3 }}
+      >
         <h2 className="text-xl font-semibold mb-4">Item Added to Cart</h2>
-        {/* Flex container for image, title, and description */}
         <div className="flex items-center gap-4 mb-4">
           <img
             src={productImage}
             alt={productTitle}
-            className="w-16 h-16 object-contain rounded-lg" // Resize image for alignment
+            className="w-16 h-16 object-contain rounded-lg"
           />
           <div>
-            <div className="product-title ">
+            <div className="product-title">
               <h3 className="text-lg text-mainText font-semibold">
                 {productTitle}
               </h3>
@@ -66,9 +94,13 @@ export const ModalAddToCartWindow = ({
             </div>
           </div>
         </div>
-        <div className=" flex justify-between items-center pb-10 pt-5 px-2gap-2">
-          <div className="product-price p-2">${changedPrice}.00</div>
-          <StyledNumberInput value={quantity} onChange={handleQuantityChange} />
+        <div className="flex justify-between items-center pb-10 pt-5 px-2 gap-2">
+          <div className="product-price p-2 text-xl text-mainText">
+            ${limitText(changedPrice.toString(), 7)}
+          </div>
+          <div className="flex items-center space-x-2">
+            <StyledNumberInput onInputValueChange={handleInputValue} />
+          </div>
         </div>
         <div className="flex justify-between gap-4">
           <button
@@ -79,7 +111,7 @@ export const ModalAddToCartWindow = ({
           </button>
           <AddToCartButton onClick={() => setIsModalOpen(false)} />
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

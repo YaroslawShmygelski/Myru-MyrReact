@@ -1,7 +1,7 @@
 import { AddToCartButton } from "@/components/atoms/AddToCartButton/AddToCartButton";
 import { ModalAddToCartWindow } from "@/components/atoms/ModalAddToCartWindow/ModalAddToCartWindow";
 import { useState } from "react";
-import { limitText } from "@/actions/limitText";
+import { limitText } from "@/services/actions/limitText";
 import "./styles.css";
 
 interface ProductCartProps {
@@ -11,7 +11,7 @@ interface ProductCartProps {
   productPrice: number;
 }
 
-export const ProductCart = ({
+export const ProductCard = ({
   productTitle,
   productImage,
   productDescription,
@@ -40,7 +40,7 @@ export const ProductCart = ({
         </p>
       </div>
       <div className="product-pricing-button">
-        <div className="product-price">${productPrice}.00</div>
+        <div className="product-price">${productPrice}</div>
         <AddToCartButton onClick={handleCartButtonClick} />
       </div>
       {isModalOpen && (

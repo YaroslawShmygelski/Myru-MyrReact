@@ -6,7 +6,7 @@ interface AddToCartButtonProps {
 }
 
 export const AddToCartButton = ({ onClick }: AddToCartButtonProps) => {
-  const [effect, setEffect] = useState(false);
+  const [effect, setEffect] = useState<boolean>(false);
 
   return (
     <div className="product-cart flex justify-center items-center">
@@ -15,10 +15,10 @@ export const AddToCartButton = ({ onClick }: AddToCartButtonProps) => {
           effect ? "animate-press" : ""
         }`}
         onClick={() => {
-          setEffect(true); // Apply animation effect
-          onClick(); // Trigger the onClick function passed from the parent component
+          setEffect(true);
+          onClick();
         }}
-        onAnimationEnd={() => setEffect(false)} // Reset animation effect after it ends
+        onAnimationEnd={() => setEffect(false)}
       >
         {/* Icon */}
         <ShoppingCart size={18} />

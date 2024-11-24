@@ -1,172 +1,88 @@
-import * as React from "react";
-import {
-  Unstable_NumberInput as BaseNumberInput,
-  NumberInputProps,
-} from "@mui/base/Unstable_NumberInput";
-import { styled } from "@mui/system";
-import RemoveIcon from "@mui/icons-material/Remove";
-import AddIcon from "@mui/icons-material/Add";
+import { useState, ChangeEvent } from "react";
 
-interface StyledNumberInputProps extends NumberInputProps {
-  value: number;
-  onChange: (
-    event:
-      | React.FocusEvent<HTMLInputElement, Element>
-      | React.PointerEvent<Element>
-      | React.KeyboardEvent<Element>,
-    value: number | null
-  ) => void;
+interface StyledNumberInputProps {
+  onInputValueChange: (value: number) => void;
 }
 
-const NumberInput = React.forwardRef(function CustomNumberInput(
-  props: NumberInputProps,
-  ref: React.ForwardedRef<HTMLDivElement>
-) {
-  return (
-    <BaseNumberInput
-      slots={{
-        root: StyledInputRoot,
-        input: StyledInput,
-        incrementButton: StyledButton,
-        decrementButton: StyledButton,
-      }}
-      slotProps={{
-        incrementButton: {
-          children: <AddIcon fontSize="small" />,
-          className: "increment",
-        },
-        decrementButton: {
-          children: <RemoveIcon fontSize="small" />,
-        },
-      }}
-      {...props}
-      ref={ref}
-    />
-  );
-});
+export const StyledNumberInput = ({
+  onInputValueChange,
+}: StyledNumberInputProps) => {
+  const [quantity, setQuantity] = useState<number>(1);
+  const [effect1, setEffect1] = useState<boolean>(false);
+  const [effect2, setEffect2] = useState<boolean>(false);
 
-export default function StyledNumberInput({
-  value,
-  onChange,
-}: StyledNumberInputProps) {
-  return (
-    <NumberInput
-      value={value}
-      onChange={onChange}
-      aria-label="Quantity Input"
-      min={1}
-      max={99}
-    />
-  );
-}
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const input_val = e.target.value;
 
-const blue = {
-  100: "#daecff",
-  200: "#b6daff",
-  300: "#66b2ff",
-  400: "#3399ff",
-  500: "#007fff",
-  600: "#0072e5",
-  700: "#0059B2",
-  800: "#004c99",
-};
+    if (input_val === "") {
+      setQuantity(0);
+      onInputValueChange(0);
+    } else {
+      const parsed_val = parseInt(input_val, 10);
 
-const grey = {
-  50: "#F3F6F9",
-  100: "#E5EAF2",
-  200: "#DAE2ED",
-  300: "#C7D0DD",
-  400: "#B0B8C4",
-  500: "#9DA8B7",
-  600: "#6B7A90",
-  700: "#434D5B",
-  800: "#303740",
-  900: "#1C2025",
-};
-
-const StyledInputRoot = styled("div")(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-weight: 400;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[500]};
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-`
-);
-
-const StyledInput = styled("input")(
-  ({ theme }) => `
-  font-size: 0.875rem;
-  font-family: inherit;
-  font-weight: 400;
-  line-height: 1.375;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  background: ${theme.palette.mode === "dark" ? "bg-gray-900" : "bg-white"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-  box-shadow: 0px 2px 4px ${
-    theme.palette.mode === "dark" ? "rgba(0,0,0, 0.5)" : "rgba(0,0,0, 0.05)"
+      if (!isNaN(parsed_val)) {
+        const fixed_val = Math.max(Math.min(parsed_val, 99), 1);
+        setQuantity(fixed_val);
+        onInputValueChange(fixed_val);
+      }
+    }
   };
-  border-radius: 8px;
-  margin: 0 8px;
-  padding: 10px 12px;
-  outline: 0;
-  min-width: 0;
-  width: 4rem;
-  text-align: center;
 
-  &:hover {
-    border-color: ${blue[400]};
-  }
+  const handleIncrement = () => {
+    setQuantity((prevQuantity) => {
+      const newQuantity = Math.min(prevQuantity + 1, 99);
+      onInputValueChange(newQuantity);
+      return newQuantity;
+    });
+  };
 
-  &:focus {
-    border-color: ${blue[400]};
-    box-shadow: 0 0 0 3px ${
-      theme.palette.mode === "dark" ? blue[700] : blue[200]
-    };
-  }
+  const handleDecrement = () => {
+    setQuantity((prevQuantity) => {
+      const newQuantity = Math.max(prevQuantity - 1, 1);
+      onInputValueChange(newQuantity);
+      return newQuantity;
+    });
+  };
 
-  &:focus-visible {
-    outline: 0;
-  }
-`
-);
+  return (
+    <>
+      <div className="flex items-center justify-between w-full px-1 gap-2">
+        <button
+          className={`flex items-center justify-center gap-1 w-8 h-8 rounded-full bg-customBlue hover:bg-customBlue700 hover:shadow-xl ${
+            effect2 ? "animate-press" : ""
+          }`}
+          onClick={() => {
+            handleDecrement();
+            setEffect2(true);
+          }}
+          onAnimationEnd={() => setEffect2(false)}
+        >
+          <p className="text-white text-2xl font-semibold">-</p>
+        </button>
 
-const StyledButton = styled("button")(
-  ({ theme }) => `
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.875rem;
-  box-sizing: border-box;
-  line-height: 1.5;
-  border: 1px solid;
-  border-radius: 999px;
-  border-color: ${theme.palette.mode === "dark" ? grey[800] : grey[200]};
-  background: ${theme.palette.mode === "dark" ? grey[900] : grey[50]};
-  color: ${theme.palette.mode === "dark" ? grey[200] : grey[900]};
-  width: 32px;
-  height: 32px;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 120ms;
+        <input
+          type="number"
+          value={quantity === 0 ? "" : quantity}
+          onChange={handleOnChange}
+          className="p-1 m-1 shadow-md hover:shadow-xl rounded-md border-0 border-b-2 border-gray-300 w-12 text-center text-lg appearance-none
+          [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden 
+          focus:border-b-2 focus:border-customBlue focus:outline-none"
+        />
 
-  &:hover {
-    cursor: pointer;
-    background: ${theme.palette.mode === "dark" ? blue[700] : blue[500]};
-    border-color: ${theme.palette.mode === "dark" ? blue[500] : blue[400]};
-    color: ${grey[50]};
-  }
-
-  &:focus-visible {
-    outline: 0;
-  }
-
-  &.increment {
-    order: 1;
-  }
-`
-);
+        <button
+          className={`flex items-center justify-center gap-1 w-8 h-8 rounded-full bg-customBlue hover:bg-customBlue700 hover:shadow-xl ${
+            effect1 ? "animate-press" : ""
+          }`}
+          onClick={() => {
+            handleIncrement();
+            setEffect1(true);
+          }}
+          onAnimationEnd={() => setEffect1(false)}
+        >
+          <p className="text-white text-lg font-semibold">+</p>
+        </button>
+      </div>
+      <div className="mt-4 text-2xl text-mainText font-medium"></div>
+    </>
+  );
+};
