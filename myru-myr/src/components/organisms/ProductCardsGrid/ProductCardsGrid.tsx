@@ -1,14 +1,7 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { ProductInterface } from "@/services/interfaces/interfaces";
 import { ProductCard } from "@components/molecules/ProductCart/ProductCard";
-
-const getProducts = async () => {
-  const response = await axios.get<ProductInterface[]>(
-    "https://mocki.io/v1/d9d46cb3-e008-4b8f-aa94-0d97d0d955aa"
-  );
-  return response.data;
-};
+import { getProducts } from "@/services/api/products";
 
 export const ProductCardsGrid = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);

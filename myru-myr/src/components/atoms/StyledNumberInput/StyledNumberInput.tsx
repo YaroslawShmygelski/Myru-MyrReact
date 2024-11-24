@@ -1,4 +1,5 @@
 import { useState, ChangeEvent } from "react";
+import "./styles.css";
 
 interface StyledNumberInputProps {
   onInputValueChange: (value: number) => void;
@@ -48,31 +49,25 @@ export const StyledNumberInput = ({
     <>
       <div className="flex items-center justify-between w-full px-1 gap-2">
         <button
-          className={`flex items-center justify-center gap-1 w-8 h-8 rounded-full bg-customBlue hover:bg-customBlue700 hover:shadow-xl ${
-            effect2 ? "animate-press" : ""
-          }`}
+          className={`modal-action-button ${effect2 ? "animate-press" : ""}`}
           onClick={() => {
             handleDecrement();
             setEffect2(true);
           }}
           onAnimationEnd={() => setEffect2(false)}
         >
-          <p className="text-white text-2xl font-semibold">-</p>
+          <p className="text-white text-lg font-semibold">-</p>
         </button>
 
         <input
           type="number"
           value={quantity === 0 ? "" : quantity}
           onChange={handleOnChange}
-          className="p-1 m-1 shadow-md hover:shadow-xl rounded-md border-0 border-b-2 border-gray-300 w-12 text-center text-lg appearance-none
-          [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden 
-          focus:border-b-2 focus:border-customBlue focus:outline-none"
+          className="modal-input-field"
         />
 
         <button
-          className={`flex items-center justify-center gap-1 w-8 h-8 rounded-full bg-customBlue hover:bg-customBlue700 hover:shadow-xl ${
-            effect1 ? "animate-press" : ""
-          }`}
+          className={`modal-action-button ${effect1 ? "animate-press" : ""}`}
           onClick={() => {
             handleIncrement();
             setEffect1(true);

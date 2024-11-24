@@ -1,0 +1,10 @@
+.modal-action-button {
+  @apply flex items-center justify-center gap-1 w-8 h-8 rounded-full bg-customBlue
+   hover:bg-customBlue700 hover:shadow-xl;
+}
+
+.modal-input-field {
+  @apply p-1 m-1 shadow-md hover:shadow-xl rounded-md border-0 border-b-2 border-gray-300 w-12 text-center text-lg appearance-none
+          [&::-webkit-inner-spin-button]:hidden [&::-webkit-outer-spin-button]:hidden 
+          focus:border-b-2 focus:border-customBlue focus:outline-none;
+}
