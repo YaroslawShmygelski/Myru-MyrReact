@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { AddToCartButton } from "../AddToCartButton/AddToCartButton";
+import { AddToCartButton } from "../../atoms/AddToCartButton/AddToCartButton";
 import { limitText } from "@/services/actions/limitText";
-import { StyledNumberInput } from "../StyledNumberInput/StyledNumberInput";
+import { StyledNumberInput } from "../../atoms/StyledNumberInput/StyledNumberInput";
 import { motion } from "framer-motion";
 import "@/components/molecules/ProductCart/styles.css";
 

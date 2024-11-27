@@ -24,6 +24,7 @@ module.exports = {
       colors: {
         customBlue: "#2667FF", // Blue color
         customBlue700: "#1A53CC", // Action blue
+        lightGray: "#E0E0E0",
         mainText: "#363842",
       },
       boxShadow: {

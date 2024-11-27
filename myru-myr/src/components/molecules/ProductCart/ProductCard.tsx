@@ -1,5 +1,5 @@
 import { AddToCartButton } from "@/components/atoms/AddToCartButton/AddToCartButton";
-import { ModalAddToCartWindow } from "@/components/atoms/ModalAddToCartWindow/ModalAddToCartWindow";
+import { ModalAddToCartWindow } from "@components/molecules/ModalAddToCartWindow/ModalAddToCartWindow";
 import { useState } from "react";
 import { limitText } from "@/services/actions/limitText";
 import "./styles.css";
