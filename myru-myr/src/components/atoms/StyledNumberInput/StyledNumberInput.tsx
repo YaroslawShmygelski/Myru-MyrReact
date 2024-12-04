@@ -3,12 +3,18 @@ import "./styles.css";
 
 interface StyledNumberInputProps {
   onInputValueChange: (value: number) => void;
+  initial_value?: number;
 }
 
 export const StyledNumberInput = ({
   onInputValueChange,
+  initial_value,
 }: StyledNumberInputProps) => {
-  const [quantity, setQuantity] = useState<number>(1);
+  if (!initial_value) {
+    initial_value = 0;
+  }
+  const [quantity, setQuantity] = useState<number>(initial_value);
+
   const [effect1, setEffect1] = useState<boolean>(false);
   const [effect2, setEffect2] = useState<boolean>(false);
 

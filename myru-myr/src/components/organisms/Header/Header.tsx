@@ -1,7 +1,13 @@
+import { CartWindow } from "@components/molecules/CartWindow/CartWindow";
 import { ShoppingBag } from "lucide-react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 export const Header = () => {
+  const [cartOpen, setCartOpen] = useState<boolean>(false);
+  const handleCartOpen = () => {
+    setCartOpen(true);
+  };
   return (
     <nav className="bg-customBlue px-4 py-8 font-sans text-white">
       <div className="container mx-auto flex items-center justify-between">
@@ -50,16 +56,13 @@ export const Header = () => {
           </li>
         </ul>
         <div>
-          <NavLink
-            to="/cart"
-            className={({ isActive }) =>
-              `relative pb-1 before:content-[''] before:absolute before:w-full before:h-[2px] before:bottom-0 before:left-0 before:scale-x-0 before:origin-left before:transition-transform before:duration-300 hover:before:scale-x-100 ${
-                isActive ? "font-bold text-mainText" : ""
-              }`
-            }
-          >
-            <ShoppingBag className="text-3xl hover:text-lightGray" />
-          </NavLink>
+          <ShoppingBag
+            className="text-3xl hover:text-lightGray"
+            onClick={handleCartOpen}
+          />
+          {cartOpen && (
+            <CartWindow isOpen={cartOpen} setCartOpen={setCartOpen} />
+          )}
         </div>
       </div>
     </nav>

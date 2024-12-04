@@ -1,11 +1,17 @@
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
-interface AddToCartButtonProps {
+interface AnimatedButtonProps {
   onClick: () => void;
+  text: string;
+  isCartButton: boolean;
 }
 
-export const AddToCartButton = ({ onClick }: AddToCartButtonProps) => {
+export const AnimatedButton = ({
+  onClick,
+  text,
+  isCartButton,
+}: AnimatedButtonProps) => {
   const [effect, setEffect] = useState<boolean>(false);
 
   return (
@@ -21,8 +27,8 @@ export const AddToCartButton = ({ onClick }: AddToCartButtonProps) => {
         onAnimationEnd={() => setEffect(false)}
       >
         {/* Icon */}
-        <ShoppingCart size={18} />
-        <p className="text-xs">Add To Cart</p>
+        {isCartButton && <ShoppingCart size={18} />}
+        <p className="text-xs">{text}</p>
       </button>
     </div>
   );

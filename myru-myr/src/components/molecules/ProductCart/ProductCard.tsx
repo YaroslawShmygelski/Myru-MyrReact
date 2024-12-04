@@ -1,4 +1,4 @@
-import { AddToCartButton } from "@/components/atoms/AddToCartButton/AddToCartButton";
+import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
 import { ModalAddToCartWindow } from "@components/molecules/ModalAddToCartWindow/ModalAddToCartWindow";
 import { useState } from "react";
 import { limitText } from "@/services/actions/limitText";
@@ -41,7 +41,11 @@ export const ProductCard = ({
       </div>
       <div className="product-pricing-button">
         <div className="product-price">${productPrice}</div>
-        <AddToCartButton onClick={handleCartButtonClick} />
+        <AnimatedButton
+          onClick={handleCartButtonClick}
+          text="Add To Cart"
+          isCartButton={true}
+        />
       </div>
       {isModalOpen && (
         <ModalAddToCartWindow

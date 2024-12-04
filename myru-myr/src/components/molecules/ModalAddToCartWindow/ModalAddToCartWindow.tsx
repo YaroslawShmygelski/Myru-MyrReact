@@ -1,8 +1,11 @@
 import { useState, useEffect } from "react";
-import { AddToCartButton } from "../../atoms/AddToCartButton/AddToCartButton";
-import { limitText } from "@/services/actions/limitText";
+
+import { AnimatedButton } from "../../atoms/AnimatedButton/AnimatedButton";
 import { StyledNumberInput } from "../../atoms/StyledNumberInput/StyledNumberInput";
+
+import { limitText } from "@/services/actions/limitText";
 import { motion } from "framer-motion";
+
 import "@/components/molecules/ProductCart/styles.css";
 
 interface ModalAddToCartWindowProps {
@@ -109,7 +112,11 @@ export const ModalAddToCartWindow = ({
           >
             Close
           </button>
-          <AddToCartButton onClick={() => setIsModalOpen(false)} />
+          <AnimatedButton
+            onClick={() => setIsModalOpen(false)}
+            text="Add To Cart"
+            isCartButton={true}
+          />
         </div>
       </motion.div>
     </div>
