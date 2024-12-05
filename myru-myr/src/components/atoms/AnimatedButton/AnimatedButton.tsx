@@ -5,12 +5,14 @@ interface AnimatedButtonProps {
   onClick: () => void;
   text: string;
   isCartButton: boolean;
+  isAble: boolean;
 }
 
 export const AnimatedButton = ({
   onClick,
   text,
   isCartButton,
+  isAble,
 }: AnimatedButtonProps) => {
   const [effect, setEffect] = useState<boolean>(false);
 
@@ -25,6 +27,7 @@ export const AnimatedButton = ({
           onClick();
         }}
         onAnimationEnd={() => setEffect(false)}
+        disabled={isAble}
       >
         {/* Icon */}
         {isCartButton && <ShoppingCart size={18} />}

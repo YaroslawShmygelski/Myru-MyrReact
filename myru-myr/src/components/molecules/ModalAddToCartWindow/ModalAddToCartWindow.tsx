@@ -116,6 +116,7 @@ export const ModalAddToCartWindow = ({
             onClick={() => setIsModalOpen(false)}
             text="Add To Cart"
             isCartButton={true}
+            isAble={quantity > 0}
           />
         </div>
       </motion.div>

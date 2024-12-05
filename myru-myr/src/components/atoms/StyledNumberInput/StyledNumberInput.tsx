@@ -11,7 +11,7 @@ export const StyledNumberInput = ({
   initial_value,
 }: StyledNumberInputProps) => {
   if (!initial_value) {
-    initial_value = 0;
+    initial_value = 1;
   }
   const [quantity, setQuantity] = useState<number>(initial_value);
 
