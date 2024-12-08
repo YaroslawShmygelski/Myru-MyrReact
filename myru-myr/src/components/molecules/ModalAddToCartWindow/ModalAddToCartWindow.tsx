@@ -4,9 +4,12 @@ import { AnimatedButton } from "../../atoms/AnimatedButton/AnimatedButton";
 import { StyledNumberInput } from "../../atoms/StyledNumberInput/StyledNumberInput";
 
 import { limitText } from "@/services/actions/limitText";
+import { useAppDispatch } from "@/hooks/reduxHooks";
 import { motion } from "framer-motion";
 
 import "@/components/molecules/ProductCart/styles.css";
+import { addItemToCart } from "@/features/cart/cartSlice";
+import { productType } from "@/types/reduxTypes";
 
 interface ModalAddToCartWindowProps {
   isModalOpen: boolean;
@@ -27,6 +30,7 @@ export const ModalAddToCartWindow = ({
 }: ModalAddToCartWindowProps) => {
   const [quantity, setQuantity] = useState<number>(1); // Default quantity
   const [changedPrice, setChangedPrice] = useState<number>(productPrice);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Correct parsing price of product
@@ -62,6 +66,13 @@ export const ModalAddToCartWindow = ({
 
   const handleInputValue = (value: number) => {
     setQuantity(value);
+  };
+
+  const handleAddToCart = (product: productType) => {
+    console.log("aa");
+    dispatch(addItemToCart(product));
+    console.log("aa23");
+    setIsModalOpen(false);
   };
 
   return (
@@ -113,10 +124,18 @@ export const ModalAddToCartWindow = ({
             Close
           </button>
           <AnimatedButton
-            onClick={() => setIsModalOpen(false)}
+            onClick={() =>
+              handleAddToCart({
+                id: 1,
+                title: productTitle,
+                description: productDescription,
+                price: productPrice,
+                quantity: quantity !== 0 ? quantity : 0,
+              })
+            }
             text="Add To Cart"
             isCartButton={true}
-            isAble={quantity > 0}
+            isAble={true}
           />
         </div>
       </motion.div>
