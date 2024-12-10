@@ -14,6 +14,7 @@ import { productType } from "@/types/reduxTypes";
 interface ModalAddToCartWindowProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  productId: number;
   productTitle: string;
   productImage: string;
   productDescription: string;
@@ -23,6 +24,7 @@ interface ModalAddToCartWindowProps {
 export const ModalAddToCartWindow = ({
   isModalOpen,
   setIsModalOpen,
+  productId,
   productTitle,
   productImage,
   productDescription,
@@ -126,7 +128,7 @@ export const ModalAddToCartWindow = ({
           <AnimatedButton
             onClick={() =>
               handleAddToCart({
-                id: 1,
+                id: productId,
                 title: productTitle,
                 description: productDescription,
                 price: productPrice,
@@ -135,7 +137,7 @@ export const ModalAddToCartWindow = ({
             }
             text="Add To Cart"
             isCartButton={true}
-            isAble={true}
+            isAble={quantity > 0}
           />
         </div>
       </motion.div>

@@ -7,10 +7,18 @@ interface cartState {
 }
 
 const initialState: cartState = {
-  items: [],
+  items: (() => {
+    const cart = localStorage.getItem("cart");
+    try {
+      const parsedCart = cart ? JSON.parse(cart) : [];
+      return Array.isArray(parsedCart) ? parsedCart : [];
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  })(),
   totalItems: 0,
 };
-
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -19,7 +27,6 @@ export const cartSlice = createSlice({
       const newItem = action.payload;
       console.log(action);
       const existingItem = state.items.find((item) => item.id == newItem.id);
-
       if (existingItem) {
         existingItem.quantity++;
         state.totalItems++;
@@ -31,6 +38,7 @@ export const cartSlice = createSlice({
           price: newItem.price,
           quantity: newItem.quantity,
         });
+        state.totalItems += newItem.quantity;
       }
     },
   },

@@ -5,6 +5,7 @@ import { limitText } from "@/services/actions/limitText";
 import "./styles.css";
 
 interface ProductCartProps {
+  productId: number;
   productTitle: string;
   productImage: string;
   productDescription: string;
@@ -12,6 +13,7 @@ interface ProductCartProps {
 }
 
 export const ProductCard = ({
+  productId,
   productTitle,
   productImage,
   productDescription,
@@ -51,6 +53,7 @@ export const ProductCard = ({
         <ModalAddToCartWindow
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
+          productId={productId}
           productTitle={productTitle}
           productImage={productImage}
           productDescription={productDescription}
