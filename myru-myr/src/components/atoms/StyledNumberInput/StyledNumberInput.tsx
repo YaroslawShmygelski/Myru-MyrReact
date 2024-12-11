@@ -10,11 +10,7 @@ export const StyledNumberInput = ({
   onInputValueChange,
   initial_value,
 }: StyledNumberInputProps) => {
-  if (!initial_value) {
-    initial_value = 1;
-  }
-  const [quantity, setQuantity] = useState<number>(initial_value);
-
+  const [quantity, setQuantity] = useState<number>(initial_value ?? 1);
   const [effect1, setEffect1] = useState<boolean>(false);
   const [effect2, setEffect2] = useState<boolean>(false);
 
@@ -22,11 +18,10 @@ export const StyledNumberInput = ({
     const input_val = e.target.value;
 
     if (input_val === "") {
-      setQuantity(0);
-      onInputValueChange(0);
+      setQuantity(1);
+      onInputValueChange(1);
     } else {
       const parsed_val = parseInt(input_val, 10);
-
       if (!isNaN(parsed_val)) {
         const fixed_val = Math.max(Math.min(parsed_val, 99), 1);
         setQuantity(fixed_val);
@@ -67,9 +62,10 @@ export const StyledNumberInput = ({
 
         <input
           type="number"
-          value={quantity === 0 ? "" : quantity}
+          value={quantity === 0 ? 1 : quantity}
           onChange={handleOnChange}
-          className="modal-input-field"
+          className="modal-input-field text-black bg-white border border-gray-300 p-2 rounded-md" // Ensure text is visible and there's a border
+          placeholder="Enter quantity"
         />
 
         <button
