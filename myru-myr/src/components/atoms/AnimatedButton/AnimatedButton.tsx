@@ -29,7 +29,6 @@ export const AnimatedButton = ({
         onAnimationEnd={() => setEffect(false)}
         disabled={!isAble}
       >
-        {/* Icon */}
         {isCartButton && <ShoppingCart size={18} />}
         <p className="text-xs">{text}</p>
       </button>

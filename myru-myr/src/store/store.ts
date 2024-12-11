@@ -7,10 +7,9 @@ const localStorageMiddleware: Middleware = (api) => (next) => (action) => {
     if (action.type.startsWith("cart/")) {
       const state = api.getState();
       const cart = state.cart.items;
-      console.log("ba1");
       if (cart) {
-        console.log("ba2");
         localStorage.setItem("cart", JSON.stringify(cart));
+        localStorage.setItem("totalItems", state.totalItems);
       }
     }
   }

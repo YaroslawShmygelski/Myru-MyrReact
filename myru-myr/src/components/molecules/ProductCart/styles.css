@@ -1,5 +1,5 @@
 .product-card {
-  @apply p-4 m-12 bg-white shadow-md rounded-lg w-64 border-spacing-6;
+  @apply p-4 m-4 bg-white shadow-md rounded-lg w-64 border-spacing-6;
 }
 
 .product-image {

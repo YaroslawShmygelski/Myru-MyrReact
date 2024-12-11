@@ -37,7 +37,7 @@ export const CartWindow = ({ isOpen, setCartOpen }: CartWindowProps) => {
         initial={{ opacity: 0.5, y: -200 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 10, y: 50 }}
-        transition={{ duration: 0.05 }}
+        transition={{ duration: 0.3 }}
       >
         <h2 className="text-center text-xl font-semibold mb-4 "> Cart </h2>
         <div className="grid grid-cols-1 gap-6">
