@@ -1,4 +1,4 @@
-import { CartWindow } from "@components/molecules/CartWindow/CartWindow";
+import { CartWindow } from "@components/organisms/CartWindow/CartWindow";
 import { ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";

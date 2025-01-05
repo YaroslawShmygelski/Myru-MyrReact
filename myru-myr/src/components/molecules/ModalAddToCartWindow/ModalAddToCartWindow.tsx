@@ -71,9 +71,7 @@ export const ModalAddToCartWindow = ({
   };
 
   const handleAddToCart = (product: productType) => {
-    console.log("aa");
     dispatch(addItemToCart(product));
-    console.log("aa23");
     setIsModalOpen(false);
   };
 
@@ -105,7 +103,7 @@ export const ModalAddToCartWindow = ({
             </div>
             <div className="product-description">
               <p className="text-sm text-mainText">
-                {limitText(productDescription, 30)}
+                {productDescription ? limitText(productDescription, 30) : ""}
               </p>
             </div>
           </div>

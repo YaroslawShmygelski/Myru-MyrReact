@@ -3,7 +3,7 @@ import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton"
 import { motion } from "framer-motion";
 
 import "./styles.css";
-import { CartProductElement } from "../CartProductElement/CartProductElement";
+import { CartProductElement } from "@/components/molecules/CartProductElement/CartProductElement";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { updateProductQuantity } from "@/features/cart/cartSlice";
 interface CartWindowProps {

@@ -10,27 +10,38 @@ export const ProductCardsGrid = () => {
     (async () => {
       try {
         const data = await getProducts();
-        setProducts(data);
-        console.log(data);
+
+        const mappedProducts: ProductInterface[] = data.map((backendItem) => ({
+          id: backendItem.id,
+          title: backendItem.name,
+          price: backendItem.price,
+          description: backendItem.description,
+        }));
+        setProducts(mappedProducts);
       } catch (e) {
-        console.log(e);
+        console.error("Error fetching products:", e);
       }
     })();
   }, []);
+
   return (
-    <>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12 p-6">
+    <div className="max-w-screen-2xl mx-auto px-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {products.map((product) => (
-          <ProductCard
+          <div
             key={product.id}
-            productId={product.id}
-            productTitle={product.title}
-            productPrice={product.price}
-            productDescription={product.description}
-            productImage="/product1.jpg"
-          />
+            className="w-full h-full flex justify-center items-stretch min-w-[255px]"
+          >
+            <ProductCard
+              productId={product.id}
+              productTitle={product.title}
+              productPrice={product.price}
+              productDescription={product.description}
+              productImage="/product1.jpg" // You can use a dynamic image URL here if necessary
+            />
+          </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };

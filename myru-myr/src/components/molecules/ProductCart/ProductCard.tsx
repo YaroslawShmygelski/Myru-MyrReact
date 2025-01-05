@@ -38,7 +38,7 @@ export const ProductCard = ({
       </div>
       <div className="product-description ">
         <p className="text-xs text-mainText">
-          {limitText(productDescription, 7)}
+          {productDescription ? limitText(productDescription, 7) : ""}
         </p>
       </div>
       <div className="product-pricing-button">

@@ -1,14 +1,25 @@
-import App from "@/App";
-import { Header } from "@components/organisms/Header/Header";
+import { ProductDetailedViewPage } from "@/pages/ProductDetailedViewPage";
 import { createBrowserRouter } from "react-router-dom";
+import { Layout } from "./Layout";
+import { MainPage } from "@/pages/MainPage";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/nav",
-    element: <Header />,
+    element: <Layout />,
+    children: [
+      {
+        path: "/",
+        element: <div>home</div>,
+        errorElement: <div>404 not found</div>,
+      },
+      {
+        path: "/product/:id",
+        element: <ProductDetailedViewPage />,
+      },
+      {
+        path: "/products",
+        element: <MainPage />,
+      },
+    ],
   },
 ]);

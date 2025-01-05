@@ -64,7 +64,7 @@ export const StyledNumberInput = ({
           type="number"
           value={quantity === 0 ? 1 : quantity}
           onChange={handleOnChange}
-          className="modal-input-field text-black bg-white border border-gray-300 p-2 rounded-md" // Ensure text is visible and there's a border
+          className="modal-input-field text-black bg-white border border-gray-300 p-2 rounded-md"
           placeholder="Enter quantity"
         />
 
