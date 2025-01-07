@@ -9,41 +9,34 @@ import { motion } from "framer-motion";
 
 import "@/components/molecules/ProductCart/styles.css";
 import { addItemToCart } from "@/features/cart/cartSlice";
-import { productType } from "@/types/reduxTypes";
+import { ProductInterface } from "@/services/interfaces/interfaces";
+import { ReduxProductType } from "@/types/reduxTypes";
 
 interface ModalAddToCartWindowProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  productId: number;
-  productTitle: string;
-  productImage: string;
-  productDescription: string;
-  productPrice: number;
+  product: ProductInterface;
 }
 
 export const ModalAddToCartWindow = ({
   isModalOpen,
   setIsModalOpen,
-  productId,
-  productTitle,
-  productImage,
-  productDescription,
-  productPrice,
+  product,
 }: ModalAddToCartWindowProps) => {
-  const [quantity, setQuantity] = useState<number>(1); // Default quantity
-  const [changedPrice, setChangedPrice] = useState<number>(productPrice);
+  const [quantity, setQuantity] = useState<number>(1);
+  const [changedPrice, setChangedPrice] = useState<number>(product.price);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Correct parsing price of product
-    const fixedPrice = parseFloat((productPrice * quantity).toFixed(2));
+    const fixedPrice = parseFloat((product.price * quantity).toFixed(2));
     setChangedPrice(fixedPrice);
-  }, [quantity, productPrice]);
+  }, [quantity, product.price]);
 
   useEffect(() => {
     const handleEscapeClick = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsModalOpen(false); // Close the modal
+        setIsModalOpen(false);
       }
     };
 
@@ -70,7 +63,7 @@ export const ModalAddToCartWindow = ({
     setQuantity(value);
   };
 
-  const handleAddToCart = (product: productType) => {
+  const handleAddToCart = (product: ReduxProductType) => {
     dispatch(addItemToCart(product));
     setIsModalOpen(false);
   };
@@ -91,19 +84,19 @@ export const ModalAddToCartWindow = ({
         <h2 className="text-xl font-semibold mb-4">Item Added to Cart</h2>
         <div className="flex items-center gap-4 mb-4">
           <img
-            src={productImage}
-            alt={productTitle}
+            src={product.image}
+            alt={product.title}
             className="w-16 h-16 object-contain rounded-lg"
           />
           <div>
             <div className="product-title">
               <h3 className="text-lg text-mainText font-semibold">
-                {productTitle}
+                {product.title}
               </h3>
             </div>
             <div className="product-description">
               <p className="text-sm text-mainText">
-                {productDescription ? limitText(productDescription, 30) : ""}
+                {product.description ? limitText(product.description, 30) : ""}
               </p>
             </div>
           </div>
@@ -126,10 +119,10 @@ export const ModalAddToCartWindow = ({
           <AnimatedButton
             onClick={() =>
               handleAddToCart({
-                id: productId,
-                title: productTitle,
-                description: productDescription,
-                price: productPrice,
+                id: product.id,
+                title: product.title,
+                description: product.description,
+                price: product.price,
                 quantity: quantity !== 0 ? quantity : 0,
               })
             }

@@ -3,11 +3,12 @@ export interface ProductInterface {
   title: string;
   price: number;
   description: string;
+  image: string;
 }
 
 export interface BackendProduct {
   id: number;
-  name: string; // 'name' from backend
+  name: string;
   price: number;
   description: string;
 }

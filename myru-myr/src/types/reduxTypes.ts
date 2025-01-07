@@ -1,5 +1,4 @@
-// TODO: Fix interface in product component
-export type productType = {
+export type ReduxProductType = {
   id: number;
   title: string;
   description: string;

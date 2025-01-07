@@ -1,8 +1,8 @@
 import { StyledNumberInput } from "@components/atoms/StyledNumberInput/StyledNumberInput";
-import { productType } from "@/types/reduxTypes";
+import { ReduxProductType } from "@/types/reduxTypes";
 
 interface CartProductElementProps {
-  product: productType;
+  product: ReduxProductType;
   onQuantityChange: (quantity: number) => void;
 }
 

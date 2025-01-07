@@ -3,46 +3,40 @@ import { ModalAddToCartWindow } from "@components/molecules/ModalAddToCartWindow
 import { useState } from "react";
 import { limitText } from "@/services/actions/limitText";
 import "./styles.css";
-
-interface ProductCartProps {
-  productId: number;
-  productTitle: string;
-  productImage: string;
-  productDescription: string;
-  productPrice: number;
-}
+import { ProductInterface } from "@/services/interfaces/interfaces";
 
 export const ProductCard = ({
-  productId,
-  productTitle,
-  productImage,
-  productDescription,
-  productPrice,
-}: ProductCartProps) => {
+  id,
+  title,
+  description,
+  image,
+  price,
+}: ProductInterface) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const handleCartButtonClick = () => {
     setIsModalOpen(true);
   };
+
   return (
     <div className="product-card">
       <div className="product-image">
         <img
-          src={productImage}
-          alt="Product"
+          src={image}
+          alt={`${title} image`}
           className="max-w-full max-h-full object-contain"
         />
       </div>
-      <div className="product-title ">
-        <h2 className="text-mainText text-xl font-semibold">{productTitle}</h2>
+      <div className="product-title">
+        <h2 className="text-mainText text-xl font-semibold">{title}</h2>
       </div>
-      <div className="product-description ">
+      <div className="product-description">
         <p className="text-xs text-mainText">
-          {productDescription ? limitText(productDescription, 7) : ""}
+          {description ? limitText(description, 7) : ""}
         </p>
       </div>
       <div className="product-pricing-button">
-        <div className="product-price">${productPrice}</div>
+        <div className="product-price">${price}</div>
         <AnimatedButton
           onClick={handleCartButtonClick}
           text="Add To Cart"
@@ -53,11 +47,11 @@ export const ProductCard = ({
         <ModalAddToCartWindow
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          productId={productId}
-          productTitle={productTitle}
-          productImage={productImage}
-          productDescription={productDescription}
-          productPrice={productPrice}
+          productId={id}
+          productTitle={title}
+          productImage={image}
+          productDescription={description}
+          productPrice={price}
         />
       )}
     </div>

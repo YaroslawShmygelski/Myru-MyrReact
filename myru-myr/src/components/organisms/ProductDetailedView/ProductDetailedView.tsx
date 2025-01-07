@@ -3,7 +3,7 @@ import { useAppDispatch } from "@/hooks/reduxHooks";
 import { limitText } from "@/services/actions/limitText";
 import { getProduct } from "@/services/api/products";
 import { ProductInterface } from "@/services/interfaces/interfaces";
-import { productType } from "@/types/reduxTypes";
+import { ReduxProductType } from "@/types/reduxTypes";
 import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
 import { StyledNumberInput } from "@components/atoms/StyledNumberInput/StyledNumberInput";
 import { useEffect, useState } from "react";
@@ -67,7 +67,7 @@ export const ProductDetailedView = ({
     return <div>Loading...</div>;
   }
 
-  const handleAddToCart = (product: productType) => {
+  const handleAddToCart = (product: ReduxProductType) => {
     dispatch(addItemToCart(product));
   };
 

@@ -16,6 +16,7 @@ export const ProductCardsGrid = () => {
           title: backendItem.name,
           price: backendItem.price,
           description: backendItem.description,
+          image: "/product1.jpg",
         }));
         setProducts(mappedProducts);
       } catch (e) {
@@ -33,11 +34,11 @@ export const ProductCardsGrid = () => {
             className="w-full h-full flex justify-center items-stretch min-w-[255px]"
           >
             <ProductCard
-              productId={product.id}
-              productTitle={product.title}
-              productPrice={product.price}
-              productDescription={product.description}
-              productImage="/product1.jpg" // You can use a dynamic image URL here if necessary
+              id={product.id}
+              title={product.title}
+              description={product.description}
+              image={product.image}
+              price={product.price}
             />
           </div>
         ))}
