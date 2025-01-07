@@ -5,6 +5,7 @@ import { getProduct } from "@/services/api/products";
 import { ProductInterface } from "@/services/interfaces/interfaces";
 import { ReduxProductType } from "@/types/reduxTypes";
 import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
+import { AnimatedLoading } from "@components/atoms/AnimatedLoading/AnimatedLoading";
 import { StyledNumberInput } from "@components/atoms/StyledNumberInput/StyledNumberInput";
 import { useEffect, useState } from "react";
 
@@ -19,7 +20,7 @@ export const ProductDetailedView = ({
   const [initialPrice, setInitialPrice] = useState<number>(0);
   const [changedPrice, setChangedPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(1);
-  const [error, setError] = useState<string | null>(null); // Ensure error state can be null or string
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export const ProductDetailedView = ({
           title: data.name,
           price: data.price,
           description: data.description,
+          image: "/image1.jpg",
         };
 
         setProduct(mappedProduct);
@@ -64,7 +66,7 @@ export const ProductDetailedView = ({
   }
 
   if (!product) {
-    return <div>Loading...</div>;
+    return <AnimatedLoading />;
   }
 
   const handleAddToCart = (product: ReduxProductType) => {
@@ -78,7 +80,6 @@ export const ProductDetailedView = ({
   return (
     <div className="flex flex-col gap-4 mb-4 p-6 bg-white shadow-lg rounded-lg">
       <div className="flex gap-4 mb-4">
-        {/* Image on the left */}
         <div className="w-32 h-32">
           <img
             src={"/product1.jpg"}
@@ -87,7 +88,6 @@ export const ProductDetailedView = ({
           />
         </div>
 
-        {/* Right side content with price, description, and quantity input */}
         <div className="flex flex-col justify-between flex-grow">
           <h3 className="text-lg text-mainText font-semibold">
             {product.title}
@@ -111,7 +111,7 @@ export const ProductDetailedView = ({
       <AnimatedButton
         onClick={() =>
           handleAddToCart({
-            id: productId,
+            id: product.id,
             title: product.title,
             description: product.description,
             price: product.price,

@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 import { ProductInterface } from "@/services/interfaces/interfaces";
 import { ProductCard } from "@components/molecules/ProductCart/ProductCard";
 import { getProducts } from "@/services/api/products";
+import { AnimatedLoading } from "@components/atoms/AnimatedLoading/AnimatedLoading";
 
 export const ProductCardsGrid = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
       try {
+        setLoading(true);
         const data = await getProducts();
 
         const mappedProducts: ProductInterface[] = data.map((backendItem) => ({
@@ -19,11 +23,30 @@ export const ProductCardsGrid = () => {
           image: "/product1.jpg",
         }));
         setProducts(mappedProducts);
+        setLoading(false);
       } catch (e) {
         console.error("Error fetching products:", e);
+        setError(
+          e instanceof Error
+            ? e.message
+            : "Failed to load product data. Please try again later."
+        );
+        setLoading(false);
       }
     })();
-  }, []);
+  }, [products]);
+
+  if (loading) {
+    return <AnimatedLoading />;
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen text-red-500 text-xl">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-screen-2xl mx-auto px-8">
