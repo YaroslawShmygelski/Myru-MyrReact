@@ -11,6 +11,7 @@ import "@/components/molecules/ProductCart/styles.css";
 import { addItemToCart } from "@/features/cart/cartSlice";
 import { ProductInterface } from "@/services/interfaces/interfaces";
 import { ReduxProductType } from "@/types/reduxTypes";
+import { useEscapeKey } from "@/hooks/hooks";
 
 interface ModalAddToCartWindowProps {
   isModalOpen: boolean;
@@ -33,23 +34,7 @@ export const ModalAddToCartWindow = ({
     setChangedPrice(fixedPrice);
   }, [quantity, product.price]);
 
-  useEffect(() => {
-    const handleEscapeClick = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsModalOpen(false);
-      }
-    };
-
-    if (isModalOpen) {
-      document.addEventListener("keydown", handleEscapeClick);
-    } else {
-      document.removeEventListener("keydown", handleEscapeClick);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscapeClick);
-    };
-  }, [isModalOpen, setIsModalOpen]);
+  useEscapeKey(() => setIsModalOpen(false), isModalOpen);
 
   if (!isModalOpen) return null;
 

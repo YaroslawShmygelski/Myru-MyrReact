@@ -1,11 +1,11 @@
 import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
-
 import { motion } from "framer-motion";
-
 import "./styles.css";
 import { CartProductElement } from "@/components/molecules/CartProductElement/CartProductElement";
 import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { updateProductQuantity } from "@/features/cart/cartSlice";
+import { useEscapeKey } from "@/hooks/hooks";
+
 interface CartWindowProps {
   isOpen: boolean;
   setCartOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -14,11 +14,14 @@ interface CartWindowProps {
 export const CartWindow = ({ isOpen, setCartOpen }: CartWindowProps) => {
   const products = useAppSelector((state) => state.cart.items);
   const dispatch = useAppDispatch();
+
   const handleOutsideClick = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       setCartOpen(false);
     }
   };
+
+  useEscapeKey(() => setCartOpen(false), isOpen);
 
   if (!isOpen) return null;
 
@@ -28,14 +31,19 @@ export const CartWindow = ({ isOpen, setCartOpen }: CartWindowProps) => {
       onClick={handleOutsideClick}
     >
       <motion.div
-        className="bg-white rounded-lg shadow-lg p-6 w-5/6"
+        className="bg-white rounded-lg shadow-lg p-6 w-5/6 max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         initial={{ opacity: 0.5, y: -200 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 10, y: 50 }}
+        exit={{ opacity: 0.5, y: 50 }}
         transition={{ duration: 0.3 }}
       >
-        <h2 className="text-center text-xl font-semibold mb-4 "> Cart </h2>
+        <div className="mb-4">
+          <span className="block text-center text-sm font-medium text-gray-500 uppercase tracking-wide">
+            Your Cart
+          </span>
+        </div>
+
         <div className="grid grid-cols-1 gap-6">
           {products.map((product) => (
             <CartProductElement
@@ -52,6 +60,7 @@ export const CartWindow = ({ isOpen, setCartOpen }: CartWindowProps) => {
             />
           ))}
         </div>
+
         <div className="pt-5">
           <AnimatedButton
             onClick={() => {}}
