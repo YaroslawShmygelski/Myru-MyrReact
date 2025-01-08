@@ -1,13 +1,15 @@
+import { useEffect, useState } from "react";
+
+import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
+import { AnimatedLoading } from "@components/atoms/AnimatedLoading/AnimatedLoading";
+import { StyledNumberInput } from "@components/atoms/StyledNumberInput/StyledNumberInput";
+
 import { addItemToCart } from "@/features/cart/cartSlice";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { limitText } from "@/services/actions/limitText";
 import { getProduct } from "@/services/api/products";
 import { ProductInterface } from "@/services/interfaces/interfaces";
 import { ReduxProductType } from "@/types/reduxTypes";
-import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
-import { AnimatedLoading } from "@components/atoms/AnimatedLoading/AnimatedLoading";
-import { StyledNumberInput } from "@components/atoms/StyledNumberInput/StyledNumberInput";
-import { useEffect, useState } from "react";
 
 interface ProductDetailedViewProps {
   productId: number;

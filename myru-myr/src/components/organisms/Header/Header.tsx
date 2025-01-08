@@ -1,7 +1,8 @@
-import { CartWindow } from "@components/organisms/CartWindow/CartWindow";
-import { ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+
+import { CartWindow } from "@components/organisms/CartWindow/CartWindow";
+import { ShoppingBag } from "lucide-react";
 
 export const Header = () => {
   const [cartOpen, setCartOpen] = useState<boolean>(false);

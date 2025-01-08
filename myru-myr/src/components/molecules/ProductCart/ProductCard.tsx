@@ -1,8 +1,10 @@
+import { useState } from "react";
+
 import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
 import { ModalAddToCartWindow } from "@components/molecules/ModalAddToCartWindow/ModalAddToCartWindow";
-import { useState } from "react";
-import { limitText } from "@/services/actions/limitText";
 import "./styles.css";
+
+import { limitText } from "@/services/actions/limitText";
 import { ProductInterface } from "@/services/interfaces/interfaces";
 
 export const ProductCard = ({
@@ -47,11 +49,7 @@ export const ProductCard = ({
         <ModalAddToCartWindow
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          productId={id}
-          productTitle={title}
-          productImage={image}
-          productDescription={description}
-          productPrice={price}
+          product={{ id, title, image, description, price }}
         />
       )}
     </div>

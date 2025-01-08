@@ -1,9 +1,10 @@
 import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
-import { motion } from "framer-motion";
-import "./styles.css";
 import { CartProductElement } from "@/components/molecules/CartProductElement/CartProductElement";
-import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
+import "./styles.css";
+
+import { motion } from "framer-motion";
 import { updateProductQuantity } from "@/features/cart/cartSlice";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { useEscapeKey } from "@/hooks/hooks";
 
 interface CartWindowProps {

@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 
-import { AnimatedButton } from "../../atoms/AnimatedButton/AnimatedButton";
-import { StyledNumberInput } from "../../atoms/StyledNumberInput/StyledNumberInput";
+import { AnimatedButton } from "@/components/atoms/AnimatedButton/AnimatedButton";
+import { StyledNumberInput } from "@/components/atoms/StyledNumberInput/StyledNumberInput";
+import "@/components/molecules/ProductCart/styles.css";
 
 import { limitText } from "@/services/actions/limitText";
 import { useAppDispatch } from "@/hooks/reduxHooks";
 import { motion } from "framer-motion";
-
-import "@/components/molecules/ProductCart/styles.css";
 import { addItemToCart } from "@/features/cart/cartSlice";
 import { ProductInterface } from "@/services/interfaces/interfaces";
 import { ReduxProductType } from "@/types/reduxTypes";

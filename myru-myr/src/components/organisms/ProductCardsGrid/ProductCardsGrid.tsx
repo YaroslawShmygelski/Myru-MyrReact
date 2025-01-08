@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { ProductInterface } from "@/services/interfaces/interfaces";
+
 import { ProductCard } from "@components/molecules/ProductCart/ProductCard";
-import { getProducts } from "@/services/api/products";
 import { AnimatedLoading } from "@components/atoms/AnimatedLoading/AnimatedLoading";
+
+import { ProductInterface } from "@/services/interfaces/interfaces";
+import { getProducts } from "@/services/api/products";
 
 export const ProductCardsGrid = () => {
   const [products, setProducts] = useState<ProductInterface[]>([]);
