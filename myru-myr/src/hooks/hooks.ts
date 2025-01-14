@@ -1,21 +1,21 @@
-import { useEffect } from "react";
+import {useEffect} from "react";
 
 export const useEscapeKey = (callback: () => void, active: boolean) => {
-  useEffect(() => {
-    const handleEscapeClick = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        callback();
-      }
-    };
+    useEffect(() => {
+        const handleEscapeClick = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                callback();
+            }
+        };
 
-    if (active) {
-      document.addEventListener("keydown", handleEscapeClick);
-    } else {
-      document.removeEventListener("keydown", handleEscapeClick);
-    }
+        if (active) {
+            document.addEventListener("keydown", handleEscapeClick);
+        } else {
+            document.removeEventListener("keydown", handleEscapeClick);
+        }
 
-    return () => {
-      document.removeEventListener("keydown", handleEscapeClick);
-    };
-  }, [callback, active]);
+        return () => {
+            document.removeEventListener("keydown", handleEscapeClick);
+        };
+    }, [callback, active]);
 };

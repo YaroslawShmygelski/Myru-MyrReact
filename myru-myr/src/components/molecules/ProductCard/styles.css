@@ -1,5 +1,9 @@
 .product-card {
-  @apply p-4 m-4 bg-white shadow-md rounded-lg w-64 border-spacing-6;
+  @apply p-4 m-4 bg-white shadow-md rounded-lg w-64 border-spacing-6 transition-transform duration-200 ease-in-out;
+}
+
+.product-card:hover {
+  @apply transform -translate-y-2 shadow-lg;
 }
 
 .product-image {

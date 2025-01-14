@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { ProductCard } from "@components/molecules/ProductCart/ProductCard";
+import { ProductCard } from "@components/molecules/ProductCard/ProductCard";
 import { AnimatedLoading } from "@components/atoms/AnimatedLoading/AnimatedLoading";
 
 import { ProductInterface } from "@/services/interfaces/interfaces";
@@ -36,7 +36,7 @@ export const ProductCardsGrid = () => {
         setLoading(false);
       }
     })();
-  }, [products]);
+  }, []);
 
   if (loading) {
     return <AnimatedLoading />;
