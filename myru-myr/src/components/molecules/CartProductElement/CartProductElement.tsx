@@ -1,14 +1,18 @@
 import {StyledNumberInput} from "@components/atoms/StyledNumberInput/StyledNumberInput";
 import {ReduxProductType} from "@/types/reduxTypes";
+import React from "react";
+import {Trash} from "lucide-react";
 
 interface CartProductElementProps {
     product: ReduxProductType;
     onQuantityChange: (quantity: number) => void;
+    onDeleteProduct: (productId: number) => void;
 }
 
 export const CartProductElement = ({
                                        product,
                                        onQuantityChange,
+                                       onDeleteProduct,
                                    }: CartProductElementProps) => {
     return (
         <div className="flex items-center space-x-4 bg-white p-4 border rounded-lg shadow-lg">
@@ -33,7 +37,13 @@ export const CartProductElement = ({
                     initial_value={product.quantity}
                     onInputValueChange={onQuantityChange}
                 />
+                <div className="flex items-center space-x-2">
+                    <Trash onClick={() => onDeleteProduct(product.id)}
+                           className="cursor-pointer text-gray-700 hover:text-red-500  duration-300 ease-in-out
+                           hover:scale-105"/>
+                </div>
             </div>
+
         </div>
     );
 };

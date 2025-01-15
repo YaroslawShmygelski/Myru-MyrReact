@@ -4,6 +4,8 @@ import "./styles.css";
 
 import {motion} from "framer-motion";
 import {updateProductQuantity} from "@/features/cart/cartSlice";
+import {deleteProductFromCart} from "@/features/cart/cartSlice";
+
 import {useAppDispatch, useAppSelector} from "@/hooks/reduxHooks";
 import {useEscapeKey} from "@/hooks/hooks";
 
@@ -58,6 +60,9 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                                     })
                                 )
                             }
+                            onDeleteProduct={() => {
+                                dispatch(deleteProductFromCart(product.id))
+                            }}
                         />
                     ))}
                 </div>
