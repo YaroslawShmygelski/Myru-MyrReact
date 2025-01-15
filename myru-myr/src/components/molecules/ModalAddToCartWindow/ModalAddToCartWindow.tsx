@@ -1,16 +1,15 @@
-import {useState, useEffect} from "react";
+import ReactDOM from "react-dom";
+import { useState, useEffect } from "react";
 
-import {AnimatedButton} from "@/components/atoms/AnimatedButton/AnimatedButton";
-import {StyledNumberInput} from "@/components/atoms/StyledNumberInput/StyledNumberInput";
-import "@components/molecules/ProductCard/styles.css";
+import { AnimatedButton } from "@/components/atoms/AnimatedButton/AnimatedButton";
+import { StyledNumberInput } from "@/components/atoms/StyledNumberInput/StyledNumberInput";
 
-import {limitText} from "@/services/actions/limitText";
-import {useAppDispatch} from "@/hooks/reduxHooks";
-import {motion} from "framer-motion";
-import {addItemToCart} from "@/features/cart/cartSlice";
+import { limitText } from "@/services/actions/limitText";
+import { useAppDispatch } from "@/hooks/reduxHooks";
+import { useEscapeKey } from "@/hooks/hooks";
+import { addItemToCart } from "@/features/cart/cartSlice";
+import { ReduxProductType } from "@/types/reduxTypes";
 import {ProductInterface} from "@/services/interfaces/interfaces";
-import {ReduxProductType} from "@/types/reduxTypes";
-import {useEscapeKey} from "@/hooks/hooks";
 
 interface ModalAddToCartWindowProps {
     isModalOpen: boolean;
@@ -28,7 +27,6 @@ export const ModalAddToCartWindow = ({
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        // Correct parsing price of product
         const fixedPrice = parseFloat((product.price * quantity).toFixed(2));
         setChangedPrice(fixedPrice);
     }, [quantity, product.price]);
@@ -52,18 +50,14 @@ export const ModalAddToCartWindow = ({
         setIsModalOpen(false);
     };
 
-    return (
+    const modalContent = (
         <div
             onClick={handleOutsideClick}
             className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
         >
-            <motion.div
-                className="bg-white rounded-lg shadow-lg p-6 w-96"
+            <div
+                className="bg-white rounded-lg shadow-lg p-6 w-full sm:w-96 max-w-lg"
                 onClick={(e) => e.stopPropagation()}
-                initial={{opacity: 0.5, y: -200}}
-                animate={{opacity: 1, y: 0}}
-                exit={{opacity: 10, y: 50}}
-                transition={{duration: 0.3}}
             >
                 <h2 className="text-xl font-semibold mb-4">Item Added to Cart</h2>
                 <div className="flex items-center gap-4 mb-4">
@@ -73,16 +67,10 @@ export const ModalAddToCartWindow = ({
                         className="w-16 h-16 object-contain rounded-lg"
                     />
                     <div>
-                        <div className="product-title">
-                            <h3 className="text-lg text-mainText font-semibold">
-                                {product.title}
-                            </h3>
-                        </div>
-                        <div className="product-description">
-                            <p className="text-sm text-mainText">
-                                {product.description ? limitText(product.description, 30) : ""}
-                            </p>
-                        </div>
+                        <h3 className="text-lg text-mainText font-semibold">{product.title}</h3>
+                        <p className="text-sm text-mainText">
+                            {product.description ? limitText(product.description, 30) : ""}
+                        </p>
                     </div>
                 </div>
                 <div className="flex justify-between items-center pb-10 pt-5 px-2 gap-2">
@@ -90,7 +78,7 @@ export const ModalAddToCartWindow = ({
                         ${limitText(changedPrice.toString(), 7)}
                     </div>
                     <div className="flex items-center space-x-2">
-                        <StyledNumberInput onInputValueChange={handleInputValue}/>
+                        <StyledNumberInput onInputValueChange={handleInputValue} />
                     </div>
                 </div>
                 <div className="flex justify-between gap-4">
@@ -115,7 +103,9 @@ export const ModalAddToCartWindow = ({
                         isAble={quantity > 0}
                     />
                 </div>
-            </motion.div>
+            </div>
         </div>
     );
+
+    return ReactDOM.createPortal(modalContent, document.body);
 };
