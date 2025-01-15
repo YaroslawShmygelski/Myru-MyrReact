@@ -2,6 +2,7 @@ import {ProductDetailedViewPage} from "@/pages/ProductDetailedViewPage";
 import {createBrowserRouter} from "react-router-dom";
 import {Layout} from "./Layout";
 import {MainPage} from "@/pages/MainPage";
+import {CreateProductElement} from "@components/organisms/CreateProductElement/CreateProductElement";
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
                 path: "/products",
                 element: <MainPage/>,
             },
+            {
+                path: "create_product",
+                element: <CreateProductElement/>
+            }
         ],
     },
 ]);

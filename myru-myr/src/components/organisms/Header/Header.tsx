@@ -43,7 +43,7 @@ export const Header = () => {
                     </li>
                     <li>
                         <NavLink
-                            to="/info"
+                            to="/create_product"
                             className={({isActive}) =>
                                 `relative pb-1 before:content-[''] before:absolute before:w-full before:h-[2px] before:bottom-0 before:left-0 before:bg-white before:scale-x-0 before:origin-left before:transition-transform before:duration-300 hover:before:scale-x-100 ${
                                     isActive ? "font-bold text-mainText" : ""
@@ -51,7 +51,7 @@ export const Header = () => {
                             }
                         >
               <span className="text-xl tracking-wide hover:text-lightGray">
-                Info
+                Create Product
               </span>
                         </NavLink>
                     </li>
