@@ -80,7 +80,7 @@ export const ProductDetailedView = ({
     };
 
     return (
-        <div className="flex flex-col gap-4 mb-4 p-6 bg-white shadow-lg rounded-lg">
+        <div className="flex flex-col gap-4 mb-40 p-6 bg-white shadow-lg rounded-lg">
             <div className="flex gap-4 mb-4">
                 <div className="w-32 h-32">
                     <img

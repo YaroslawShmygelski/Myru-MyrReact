@@ -1,6 +1,6 @@
 import {AnimatedButton} from "@components/atoms/AnimatedButton/AnimatedButton";
 import {CartProductElement} from "@/components/molecules/CartProductElement/CartProductElement";
-import {X} from "lucide-react"; // Assuming this is the Lucid React close icon component
+import {X} from "lucide-react";
 import "./styles.css";
 
 import {motion} from "framer-motion";
@@ -82,30 +82,27 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="cart-overlay">
             <motion.div
-                className="bg-white rounded-lg shadow-lg p-6 w-5/6 max-h-[80vh] overflow-y-auto relative"
+                className="cart-window"
                 onClick={(e) => e.stopPropagation()}
                 initial={{opacity: 0.5, y: -200}}
                 animate={{opacity: 1, y: 0}}
                 exit={{opacity: 0.5, y: 50}}
                 transition={{duration: 0.3}}
             >
-
                 <button
-                    className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+                    className="cart-close-button"
                     onClick={() => setCartOpen(false)}
                 >
                     <X size={24} />
                 </button>
 
                 <div className="mb-4">
-                    <span className="block text-center text-sm font-medium text-gray-500 uppercase tracking-wide">
-                        Your Cart
-                    </span>
+                    <span className="cart-title">Your Cart</span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-6">
+                <div className="cart-product-grid">
                     {products.map((product) => (
                         <CartProductElement
                             key={product.id}
@@ -119,14 +116,14 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                                 )
                             }
                             onDeleteProduct={() => {
-                                dispatch(deleteProductFromCart(product.id))
+                                dispatch(deleteProductFromCart(product.id));
                             }}
                         />
                     ))}
                 </div>
 
                 <div className="mb-4 mt-12">
-                    <label className="block text-sm font-medium text-[#363842] mb-2" htmlFor="clientName">
+                    <label className="input-label" htmlFor="clientName">
                         Client Name
                     </label>
                     <input
@@ -134,14 +131,14 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                         id="clientName"
                         value={clientName}
                         onChange={(e) => setClientName(e.target.value)}
-                        className={`mt-1 p-3 border ${clientNameError ? "border-red-500" : "border-[#E0E0E0]"} text-black bg-white rounded-lg shadow-sm w-full focus:outline-none focus:ring-2 focus:ring-[#2667FF] focus:border-[#2667FF] transition duration-300`}
+                        className={`input-field ${clientNameError ? "error" : ""}`}
                         placeholder="Enter client name"
                     />
-                    {clientNameError && <p className="text-red-500 text-xs mt-1">{clientNameError}</p>}
+                    {clientNameError && <p className="input-error-text">{clientNameError}</p>}
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-[#363842] mb-2" htmlFor="clientAddress">
+                    <label className="input-label" htmlFor="clientAddress">
                         Client Address
                     </label>
                     <input
@@ -149,14 +146,14 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                         id="clientAddress"
                         value={clientAddress}
                         onChange={(e) => setClientAddress(e.target.value)}
-                        className={`mt-1 p-3 border ${clientAddressError ? "border-red-500" : "border-[#E0E0E0]"} text-black bg-white rounded-lg shadow-sm w-full focus:outline-none focus:ring-2 focus:ring-[#2667FF] focus:border-[#2667FF] transition duration-300`}
+                        className={`input-field ${clientAddressError ? "error" : ""}`}
                         placeholder="Enter client address"
                     />
-                    {clientAddressError && <p className="text-red-500 text-xs mt-1">{clientAddressError}</p>}
+                    {clientAddressError && <p className="input-error-text">{clientAddressError}</p>}
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-[#363842] mb-2" htmlFor="clientPhone">
+                    <label className="input-label" htmlFor="clientPhone">
                         Client Phone
                     </label>
                     <input
@@ -164,14 +161,14 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                         id="clientPhone"
                         value={clientPhone}
                         onChange={(e) => setClientPhone(e.target.value)}
-                        className={`mt-1 p-3 border ${clientPhoneError ? "border-red-500" : "border-[#E0E0E0]"} text-black bg-white rounded-lg shadow-sm w-full focus:outline-none focus:ring-2 focus:ring-[#2667FF] focus:border-[#2667FF] transition duration-300`}
+                        className={`input-field ${clientPhoneError ? "error" : ""}`}
                         placeholder="Enter phone number"
                     />
-                    {clientPhoneError && <p className="text-red-500 text-xs mt-1">{clientPhoneError}</p>}
+                    {clientPhoneError && <p className="input-error-text">{clientPhoneError}</p>}
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium text-[#363842] mb-2" htmlFor="clientEmail">
+                    <label className="input-label" htmlFor="clientEmail">
                         Client Email
                     </label>
                     <input
@@ -179,18 +176,18 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                         id="clientEmail"
                         value={clientEmail}
                         onChange={(e) => setClientEmail(e.target.value)}
-                        className={`mt-1 p-3 border ${clientEmailError ? "border-red-500" : "border-[#E0E0E0]"} text-black bg-white rounded-lg shadow-sm w-full focus:outline-none focus:ring-2 focus:ring-[#2667FF] focus:border-[#2667FF] transition duration-300`}
+                        className={`input-field ${clientEmailError ? "error" : ""}`}
                         placeholder="Enter email address"
                     />
-                    {clientEmailError && <p className="text-red-500 text-xs mt-1">{clientEmailError}</p>}
+                    {clientEmailError && <p className="input-error-text">{clientEmailError}</p>}
                 </div>
 
-                <div className="pt-5">
+                <div className="order-button-container">
                     <AnimatedButton
                         onClick={handleCreateOrder}
                         text="Place Order"
                         isCartButton={false}
-                    ></AnimatedButton>
+                    />
                 </div>
             </motion.div>
         </div>

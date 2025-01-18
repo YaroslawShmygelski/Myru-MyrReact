@@ -1,8 +1,11 @@
 import {ProductDetailedViewPage} from "@/pages/ProductDetailedViewPage";
+import {MainPage} from "@/pages/MainPage";
+import {ShopPage} from "@/pages/ShopPage";
+import {CreateProductPage} from "@/pages/CreateProductPage";
+
 import {createBrowserRouter} from "react-router-dom";
 import {Layout} from "./Layout";
-import {MainPage} from "@/pages/MainPage";
-import {CreateProductElement} from "@components/organisms/CreateProductElement/CreateProductElement";
+
 
 export const router = createBrowserRouter([
     {
@@ -10,7 +13,7 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <div>home</div>,
+                element: <MainPage/>,
                 errorElement: <div>404 not found</div>,
             },
             {
@@ -19,11 +22,11 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/products",
-                element: <MainPage/>,
+                element: <ShopPage/>,
             },
             {
                 path: "create_product",
-                element: <CreateProductElement/>
+                element: <CreateProductPage/>
             }
         ],
     },

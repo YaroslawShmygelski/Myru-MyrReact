@@ -1,9 +1,9 @@
-import React from "react";
+import {CreateProductElement} from "@components/organisms/CreateProductElement/CreateProductElement";
 
 export const CreateProductPage = () => {
     return (
         <>
-            <CreateProductPage/>
+            <CreateProductElement/>
         </>
     );
 }
