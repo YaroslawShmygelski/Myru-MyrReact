@@ -58,7 +58,6 @@ export const createProduct = async (
 
         return response.status;
     } catch (error) {
-        console.log(error);
         if (axios.isAxiosError(error)) {
             console.error("Error creating product", error.code);
         } else {
@@ -67,3 +66,18 @@ export const createProduct = async (
         throw new Error("Failed to create product");
     }
 };
+
+export const removeProduct = async (productID: number) => {
+    try {
+        const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL3}/Products/${productID}`)
+        return response.status;
+    } catch (error) {
+        console.log(error);
+        if (axios.isAxiosError(error)) {
+            console.error("Error deleting product", error.code);
+        } else {
+            console.error("An unexpected error occurred:", error);
+        }
+        throw new Error("Failed to delete product");
+    }
+}

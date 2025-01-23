@@ -8,8 +8,11 @@ import {addItemToCart} from "@/features/cart/cartSlice";
 import {useAppDispatch} from "@/hooks/reduxHooks";
 import {limitText} from "@/services/actions/limitText";
 import {getProduct} from "@/services/api/products";
+import {removeProduct} from "@/services/api/products";
 import {ProductInterface} from "@/services/interfaces/interfaces";
 import {ReduxProductType} from "@/types/reduxTypes";
+import {Trash} from "lucide-react";
+import {useNavigate} from "react-router";
 
 interface ProductDetailedViewProps {
     productId: number;
@@ -24,6 +27,7 @@ export const ProductDetailedView = ({
     const [quantity, setQuantity] = useState<number>(1);
     const [error, setError] = useState<string | null>(null);
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -79,6 +83,16 @@ export const ProductDetailedView = ({
         setQuantity(value);
     };
 
+    const handleDeleteProduct = async () => {
+        const status = await removeProduct(product.id);
+        if (status == 204) {
+            navigate("/")
+        }
+        else{
+            setError("Unexpected error while deleting Product");
+        }
+    }
+
     return (
         <div className="flex flex-col gap-4 mb-40 p-6 bg-white shadow-lg rounded-lg">
             <div className="flex gap-4 mb-4">
@@ -125,6 +139,9 @@ export const ProductDetailedView = ({
                 isCartButton={true}
                 isAble={quantity > 0}
             />
+
+            <Trash className="cursor-pointer text-gray-700 hover:text-red-500  duration-300 ease-in-out
+                           hover:scale-105" onClick={handleDeleteProduct}/>
         </div>
     );
 };
