@@ -14,11 +14,13 @@ export const CartProductElement = ({
                                        onQuantityChange,
                                        onDeleteProduct,
                                    }: CartProductElementProps) => {
+
+    console.log(product.image)
     return (
         <div className="flex items-center space-x-4 bg-white p-4 border rounded-lg shadow-lg">
             <div className="flex-shrink-0 w-24 h-24">
                 <img
-                    src="./product1.jpg"
+                    src={product.image}
                     alt={product.title}
                     className="object-contain w-full h-full rounded-lg"
                 />

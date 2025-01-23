@@ -11,4 +11,5 @@ export interface BackendProduct {
   name: string;
   price: number;
   description: string;
+  imagePath: string;
 }

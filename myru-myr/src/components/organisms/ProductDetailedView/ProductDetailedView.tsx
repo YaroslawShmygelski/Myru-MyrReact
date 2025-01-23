@@ -39,7 +39,7 @@ export const ProductDetailedView = ({
                     title: data.name,
                     price: data.price,
                     description: data.description,
-                    image: "/product1.jpg",
+                    image: `${import.meta.env.VITE_PATH_TO_IMAGES}` + data.imagePath,
                 };
 
                 setProduct(mappedProduct);
@@ -84,7 +84,7 @@ export const ProductDetailedView = ({
             <div className="flex gap-4 mb-4">
                 <div className="w-32 h-32">
                     <img
-                        src={"/product1.jpg"}
+                        src={product.image}
                         alt={product.title}
                         className="w-full h-full object-contain rounded-lg"
                     />
@@ -118,6 +118,7 @@ export const ProductDetailedView = ({
                         description: product.description,
                         price: product.price,
                         quantity: quantity !== 0 ? quantity : 0,
+                        image: product.image
                     })
                 }
                 text="Add To Cart"

@@ -96,6 +96,7 @@ export const ModalAddToCartWindow = ({
                                 description: product.description,
                                 price: product.price,
                                 quantity: quantity !== 0 ? quantity : 0,
+                                image: product.image,
                             })
                         }
                         text="Add To Cart"

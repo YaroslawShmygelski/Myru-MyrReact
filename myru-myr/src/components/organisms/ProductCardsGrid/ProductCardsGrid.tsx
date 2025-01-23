@@ -16,13 +16,14 @@ export const ProductCardsGrid = () => {
       try {
         setLoading(true);
         const data = await getProducts();
+        console.log(data);
 
         const mappedProducts: ProductInterface[] = data.map((backendItem) => ({
           id: backendItem.id,
           title: backendItem.name,
           price: backendItem.price,
           description: backendItem.description,
-          image: "/product1.jpg",
+          image: `${import.meta.env.VITE_PATH_TO_IMAGES}`+ backendItem.imagePath,
         }));
         setProducts(mappedProducts);
         setLoading(false);
