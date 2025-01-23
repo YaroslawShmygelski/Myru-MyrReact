@@ -3,7 +3,7 @@ import {BackendProduct} from "../interfaces/interfaces";
 
 export const getProducts = async () => {
     const response = await axios.get<BackendProduct[]>(
-        `${import.meta.env.VITE_BACKEND_URL2}/api/shop/products`
+        `${import.meta.env.VITE_BACKEND_URL3}/Products`
     );
     return response.data;
 };
@@ -11,7 +11,7 @@ export const getProducts = async () => {
 export const getProduct = async (productID: number) => {
     try {
         const response = await axios.get(
-            `${import.meta.env.VITE_BACKEND_URL2}/api/shop/product/${productID}`
+            `${import.meta.env.VITE_BACKEND_URL3}/Products/${productID}`
         );
         return response.data;
     } catch (error) {
@@ -34,23 +34,31 @@ export const getProduct = async (productID: number) => {
 export const createProduct = async (
     name: string,
     description: string,
-    price: number
+    price: number,
+    image: File,
 ) => {
     try {
-        const code = Math.floor(Math.random() * 1000) + 1; // Generate a random code
+        const code = Math.floor(Math.random() * 1000) + 1;
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("code", code.toString());
+        formData.append("image", image);
+        formData.append("description", description);
+        formData.append("price", price.toString());
 
         const response = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL2}/api/shop/create-product`,
+            `${import.meta.env.VITE_BACKEND_URL3}/Products`,
+            formData,
             {
-                name,
-                code,
-                price,
-                description,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
             }
         );
 
         return response.status;
     } catch (error) {
+        console.log(error);
         if (axios.isAxiosError(error)) {
             console.error("Error creating product", error.code);
         } else {

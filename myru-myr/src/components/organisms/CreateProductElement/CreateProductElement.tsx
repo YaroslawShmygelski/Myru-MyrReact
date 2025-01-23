@@ -7,7 +7,7 @@ export const CreateProductElement = () => {
     const [productName, setProductName] = useState<string>("");
     const [productPrice, setProductPrice] = useState<string>("");
     const [productDescription, setProductDescription] = useState<string>("");
-    const [productImage, setProductImage] = useState<File | null>(null);
+    const [productImage, setProductImage] = useState<File | null >(null);
 
     const [error, setError] = useState<string | null>(null);
 
@@ -55,9 +55,9 @@ export const CreateProductElement = () => {
         }
 
         try {
-            const status = await createProduct(productName, productDescription, parseInt(productPrice));
+            const status = await createProduct(productName, productDescription, parseInt(productPrice), productImage!);
 
-            if (status === 200) {
+            if (status === 201) {
                 navigate("/");
 
                 setProductName("");
@@ -66,6 +66,7 @@ export const CreateProductElement = () => {
                 setProductImage(null);
             } else {
                 setError("Failed to create product. Please try again.");
+
             }
         } catch (err) {
             setError("Failed to create product. Please try again.");

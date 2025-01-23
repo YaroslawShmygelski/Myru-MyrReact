@@ -2,7 +2,7 @@ import {NavLink} from "react-router-dom";
 
 export const Footer = () => {
     return (
-        <footer className="bg-gray-900 text-white py-8">
+        <footer className="bg-gray-900 text-white py-8 mt-12">
             <div className="container mx-auto text-center">
                 <ul className="flex flex-wrap justify-center space-x-10 text-lg md:text-xl mb-4">
                     <li>
@@ -51,9 +51,9 @@ export const Footer = () => {
                 <div className="mt-4">
                     <a href={import.meta.env.VITE_FACEBOOK_URL} target="_blank"
                        className="text-gray-400 hover:text-white mx-2">Facebook</a>
-                    <a href={import.meta.env.VITE_INSTAGRAM_URL} target="_blank"
-                       className="text-gray-400 hover:text-white mx-2">X</a>
                     <a href={import.meta.env.VITE_X_URL} target="_blank"
+                       className="text-gray-400 hover:text-white mx-2">X</a>
+                    <a href={import.meta.env.VITE_INSTAGRAM_URL} target="_blank"
                        className="text-gray-400 hover:text-white mx-2">Instagram</a>
                 </div>
                 <p className="text-sm mt-4">Designed with
