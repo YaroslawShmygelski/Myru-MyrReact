@@ -13,3 +13,20 @@ export interface BackendProduct {
   description: string;
   imagePath: string;
 }
+
+export interface OrderInterface {
+  id: number;
+  "orderDate": string,
+  "items": [],
+  "userName": string,
+  "userEmail": string,
+  "userPhone": string,
+  "userAddress": string
+}
+
+export interface ProductInOrderInterface {
+  id: number;
+  productName: string;
+  quantity: number;
+}
+

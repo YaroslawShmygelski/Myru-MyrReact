@@ -10,6 +10,8 @@ import {deleteProductFromCart} from "@/features/cart/cartSlice";
 import {useAppDispatch, useAppSelector} from "@/hooks/reduxHooks";
 import {useEscapeKey} from "@/hooks/hooks";
 import {useState} from "react";
+import {createOrder} from "@/services/api/orders";
+import {Alert} from "@components/atoms/Alert/Alert";
 
 interface CartWindowProps {
     isOpen: boolean;
@@ -29,6 +31,7 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
     const [clientAddressError, setClientAddressError] = useState<string | null>(null);
     const [clientPhoneError, setClientPhoneError] = useState<string | null>(null);
     const [clientEmailError, setClientEmailError] = useState<string | null>(null);
+    const [showAlert, setShowAlert] = useState<boolean>(false);
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -75,6 +78,28 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
         if (!hasError) {
             console.log("Order placed successfully", {clientName, clientAddress, clientPhone, clientEmail});
         }
+
+        try {
+            const items = products.map((product) =>
+                (
+                    {
+                        "productId": product.id,
+                        "quantity": product.quantity
+                    }
+                ))
+            console.log(items);
+            const response = await createOrder(clientName, clientAddress, clientPhone, clientEmail, items);
+            console.log(response);
+            if (response.id) {
+                setShowAlert(true);
+                setTimeout(()=>{
+                    setCartOpen(false);
+                }, 1000)
+
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEscapeKey(() => setCartOpen(false), isOpen);
@@ -83,6 +108,9 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
 
     return (
         <div className="cart-overlay">
+            {showAlert && (
+                <Alert url={"/"} title={"Order Created Successfully"}/>
+            )}
             <motion.div
                 className="cart-window"
                 onClick={(e) => e.stopPropagation()}
@@ -95,7 +123,7 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                     className="cart-close-button"
                     onClick={() => setCartOpen(false)}
                 >
-                    <X size={24} />
+                    <X size={24}/>
                 </button>
 
                 <div className="mb-4">
