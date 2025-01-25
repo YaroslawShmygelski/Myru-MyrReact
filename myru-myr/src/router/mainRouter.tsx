@@ -2,9 +2,11 @@ import {ProductDetailedViewPage} from "@/pages/ProductDetailedViewPage";
 import {MainPage} from "@/pages/MainPage";
 import {ShopPage} from "@/pages/ShopPage";
 import {CreateProductPage} from "@/pages/CreateProductPage";
+import {EditProductPage} from "@/pages/EditProductPage";
 
 import {createBrowserRouter} from "react-router-dom";
 import {Layout} from "./Layout";
+
 
 
 export const router = createBrowserRouter([
@@ -25,8 +27,13 @@ export const router = createBrowserRouter([
                 element: <ShopPage/>,
             },
             {
-                path: "create_product",
+                path: "create-product",
                 element: <CreateProductPage/>
+            },
+            {
+                path: "edit-product/:productId",
+                element: <EditProductPage/>
+
             }
         ],
     },

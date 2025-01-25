@@ -81,3 +81,36 @@ export const removeProduct = async (productID: number) => {
         throw new Error("Failed to delete product");
     }
 }
+
+export const updateProduct =
+    async (productID: number, name: string, description: string, price: number, image: File) => {
+        try {
+            const code = Math.floor(Math.random() * 1000) + 1;
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("code", code.toString());
+            formData.append("image", image);
+            formData.append("description", description);
+            formData.append("price", price.toString());
+
+            const response = await axios.put(
+                `${import.meta.env.VITE_BACKEND_URL3}/Products/${productID}`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            return response.status;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.error("Error updating product", error.code);
+            } else {
+                console.error("An unexpected error occurred:", error);
+            }
+            throw new Error("Failed to update product");
+        }
+
+    }

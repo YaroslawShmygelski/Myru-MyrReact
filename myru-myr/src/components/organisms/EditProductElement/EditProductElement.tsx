@@ -1,14 +1,18 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { AnimatedButton } from "@components/atoms/AnimatedButton/AnimatedButton";
-import { createProduct } from "@/services/api/products";
+import {useState, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
+import {AnimatedButton} from "@components/atoms/AnimatedButton/AnimatedButton";
+import {getProduct, updateProduct} from "@/services/api/products";
+import {isNumber} from "@mui/base/unstable_useNumberInput/utils";
 
-export const CreateProductElement = () => {
+export const EditProductElement = ({productId}: { productId: number }) => {
+    const navigate = useNavigate();
+
     const [productName, setProductName] = useState<string>("");
     const [productPrice, setProductPrice] = useState<string>("");
     const [productDescription, setProductDescription] = useState<string>("");
     const [productImage, setProductImage] = useState<File | null>(null);
     const [productImagePreview, setProductImagePreview] = useState<string | null>(null);
+    const [existingImage, setExistingImage] = useState<string | null>(null);
 
     const [error, setError] = useState<string | null>(null);
 
@@ -17,9 +21,31 @@ export const CreateProductElement = () => {
     const [productDescriptionError, setProductDescriptionError] = useState<string | null>(null);
     const [productImageError, setProductImageError] = useState<string | null>(null);
 
-    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                if (!productId && !isNumber(productId)) {
+                    setError("Product ID is missing or invalid.");
+                    return;
+                }
+                const product = await getProduct(productId);
+                if (product) {
+                    setProductName(product.name);
+                    setProductPrice(product.price.toString());
+                    setProductDescription(product.description);
+                    setExistingImage(`${import.meta.env.VITE_PATH_TO_IMAGES}` + product.imagePath);
+                    setProductImagePreview(`${import.meta.env.VITE_PATH_TO_IMAGES}` + product.imagePath);
+                }
+            } catch (err) {
+                setError("Failed to fetch product details. Please try again.");
+                console.error(err);
+            }
+        };
 
-    const handleCreateProduct = async () => {
+        fetchProduct();
+    }, [productId]);
+
+    const handleUpdateProduct = async () => {
         setProductNameError(null);
         setProductPriceError(null);
         setProductDescriptionError(null);
@@ -46,7 +72,7 @@ export const CreateProductElement = () => {
             hasError = true;
         }
 
-        if (!productImage) {
+        if (!productImage && !existingImage) {
             setProductImageError("Product image is required");
             hasError = true;
         }
@@ -56,22 +82,21 @@ export const CreateProductElement = () => {
         }
 
         try {
-            const status = await createProduct(productName, productDescription, parseInt(productPrice), productImage!);
-
-            if (status === 201) {
-                navigate("/");
-
-                setProductName("");
-                setProductPrice("");
-                setProductDescription("");
-                setProductImage(null);
-                setProductImagePreview(null);
+            const status = await updateProduct(
+                productId,
+                productName,
+                productDescription,
+                parseInt(productPrice),
+                productImage!
+            );
+            if (status === 200) {
+                navigate(`product/${productId}`);
             } else {
-                setError("Failed to create product. Please try again.");
+                setError("Failed to update product. Please try again.");
             }
         } catch (err) {
-            setError("Failed to create product. Please try again.");
-            console.error("Product creation error", err);
+            setError("Failed to update product. Please try again.");
+            console.error("Product update error", err);
         }
     };
 
@@ -79,13 +104,13 @@ export const CreateProductElement = () => {
         const file = e.target.files?.[0];
         if (file) {
             setProductImage(file);
-            setProductImagePreview(URL.createObjectURL(file)); // Generate preview URL for the image
+            setProductImagePreview(URL.createObjectURL(file)); // Show live preview
         }
     };
 
     const removeImage = () => {
         setProductImage(null);
-        setProductImagePreview(null); // Reset preview when image is removed
+        setProductImagePreview(existingImage || null); // Reset to existing image if available
     };
 
     const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +123,7 @@ export const CreateProductElement = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-[#F9FAFB] p-6">
             <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
-                <h2 className="text-3xl text-[#363842] font-semibold text-center mb-6">Create New Product</h2>
+                <h2 className="text-3xl text-[#363842] font-semibold text-center mb-6">Edit Product</h2>
 
                 {error && <div className="text-red-500 text-center mb-4 font-medium">{error}</div>}
 
@@ -185,9 +210,9 @@ export const CreateProductElement = () => {
 
                 <div className="mt-6 flex justify-center">
                     <AnimatedButton
-                        onClick={handleCreateProduct}
-                        text="Create Product"
-                        isAble={!!(productName && productPrice && productDescription && productImage)}
+                        onClick={handleUpdateProduct}
+                        text="Update Product"
+                        isAble={!!(productName && productPrice && productDescription && (productImage || existingImage))}
                         isCartButton={false}
                     />
                 </div>

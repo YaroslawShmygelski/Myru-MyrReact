@@ -31,7 +31,7 @@ export const Footer = () => {
                     </li>
                     <li>
                         <NavLink
-                            to="/create_product"
+                            to="/create-product"
                             className={({isActive}) =>
                                 `relative pb-1 before:content-[''] before:absolute before:w-full before:h-[2px] before:bottom-0 before:left-0 before:bg-white before:scale-x-0 before:origin-left before:transition-transform before:duration-300 hover:before:scale-x-100 ${
                                     isActive ? "font-bold text-white" : "text-lightGray"

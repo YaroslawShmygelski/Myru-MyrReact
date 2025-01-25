@@ -11,7 +11,7 @@ import {getProduct} from "@/services/api/products";
 import {removeProduct} from "@/services/api/products";
 import {ProductInterface} from "@/services/interfaces/interfaces";
 import {ReduxProductType} from "@/types/reduxTypes";
-import {Trash} from "lucide-react";
+import {Pencil, Trash} from "lucide-react";
 import {useNavigate} from "react-router";
 
 interface ProductDetailedViewProps {
@@ -93,36 +93,50 @@ export const ProductDetailedView = ({
         }
     }
 
+    const handleUpdateProduct = async () => {
+      navigate(`/edit-product/${product.id}`);
+    }
+
     return (
-        <div className="flex flex-col gap-4 mb-40 p-6 bg-white shadow-lg rounded-lg">
-            <div className="flex gap-4 mb-4">
-                <div className="w-32 h-32">
+        <div className="relative flex flex-col gap-6 mb-40 p-8 bg-white shadow-xl rounded-lg w-4/5 mx-auto mt-12">
+            <div className="flex gap-8 mb-6">
+                <div className="w-64 h-64 overflow-hidden rounded-lg shadow-lg">
                     <img
                         src={product.image}
                         alt={product.title}
-                        className="w-full h-full object-contain rounded-lg"
+                        className="w-full h-full object-cover"
                     />
                 </div>
 
                 <div className="flex flex-col justify-between flex-grow">
-                    <h3 className="text-lg text-mainText font-semibold">
+                    <h3 className="text-2xl text-mainText font-semibold mb-2">
                         {product.title}
                     </h3>
-                    <p className="text-sm text-gray-500">
-                        {limitText(product.description, 30)}
+                    <p className="text-sm text-gray-600 mb-4">
+                        {limitText(product.description, 50)}
                     </p>
 
-                    <div className="flex justify-between items-center pt-4 gap-2">
-                        <div className="product-price text-xl font-semibold text-mainText">
+                    <div className="flex justify-between items-center mb-6">
+                        <div className="product-price text-2xl font-semibold text-mainText">
                             ${changedPrice.toFixed(2)}
                         </div>
 
-                        <div className="w-40">
-                            <StyledNumberInput onInputValueChange={handleInputValue}/>
+                        <div className="w-32">
+                            <StyledNumberInput onInputValueChange={handleInputValue} />
                         </div>
                     </div>
                 </div>
             </div>
+
+            <Pencil
+                className="cursor-pointer text-gray-700 hover:text-blue-500 duration-300 ease-in-out hover:scale-110 absolute top-4 right-4"
+                onClick={handleUpdateProduct}
+            />
+
+            <Trash
+                className="cursor-pointer text-gray-700 hover:text-red-500 duration-300 ease-in-out hover:scale-110 absolute bottom-6 right-6"
+                onClick={handleDeleteProduct}
+            />
 
             <AnimatedButton
                 onClick={() =>
@@ -132,16 +146,13 @@ export const ProductDetailedView = ({
                         description: product.description,
                         price: product.price,
                         quantity: quantity !== 0 ? quantity : 0,
-                        image: product.image
+                        image: product.image,
                     })
                 }
                 text="Add To Cart"
                 isCartButton={true}
                 isAble={quantity > 0}
             />
-
-            <Trash className="cursor-pointer text-gray-700 hover:text-red-500  duration-300 ease-in-out
-                           hover:scale-105" onClick={handleDeleteProduct}/>
         </div>
     );
 };
