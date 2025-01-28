@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { AnimatedLoading } from "@components/atoms/AnimatedLoading/AnimatedLoading";
-import { getOrders } from "@/services/api/orders";
-import {OrderInterface, ProductInOrderInterface} from "@/services/interfaces/interfaces";
+import {deleteOrder, getOrderPdf, getOrders} from "@/services/api/orders";
+import { OrderInterface, ProductInOrderInterface } from "@/services/interfaces/interfaces";
+import { Trash } from "lucide-react";
 
 export const OrdersList = () => {
-    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [orders, setOrders] = useState<OrderInterface[]>([]);
-
+    const [deletedOrderId, setDeletedOrderId] = useState<number | null>(null);
 
     useEffect(() => {
         (async () => {
@@ -29,10 +29,33 @@ export const OrdersList = () => {
         })();
     }, []);
 
+    const handleDeleteProduct = async (orderId: number) => {
+        setDeletedOrderId(orderId);
+
+        try {
+            const response = await deleteOrder(orderId);
+            console.log(response);
+
+            setTimeout(() => {
+                setOrders((prevOrders) => prevOrders.filter((order) => order.id !== orderId));
+            }, 500);
+        } catch (error) {
+            console.error("Error deleting order:", error);
+        } finally {
+            setDeletedOrderId(null);
+        }
+    };
+
+    const handleGetOrderPdf = async (orderId: number) => {
+        setLoading(true);
+        const response = await getOrderPdf(orderId);
+        console.log(response);
+        setLoading(false);
+    }
+
     if (loading) {
         return <AnimatedLoading />;
     }
-    console.log(orders);
 
     if (error) {
         return (
@@ -43,87 +66,86 @@ export const OrdersList = () => {
     }
 
     return (
-        <div className="order-list flex mt-24 flex-col items-center gap-6">
+        <div className="order-list flex mt-24 flex-col items-center gap-6 px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12">
             {orders.length > 0 ? (
                 orders.map((order) => (
                     <div
                         key={order.id}
-                        className="order-card p-4 bg-white shadow-md rounded-lg w-4/5 sm:w-4/5 md:w-4/5 lg:w-4/5 xl:w-4/5 border-spacing-6 transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-lg"
+                        className={`order-card p-6 bg-white shadow-lg rounded-lg w-full sm:w-4/5 md:w-3/4 lg:w-2/3 xl:w-1/2 transition-all duration-500 ease-in-out ${
+                            deletedOrderId === order.id
+                                ? "opacity-0 scale-90"
+                                : "hover:scale-105 hover:shadow-xl"
+                        }`}
                     >
-                        <div className="order-details mb-4">
-                            <div className="order-title flex justify-between items-center pt-0 px-4 pb-4">
-                                <h2 className="text-mainText text-xl font-semibold">
-                                    Order #{order.id}
-                                </h2>
-                                <span className="text-mainText text-xs">
-                            {new Date(order.orderDate).toLocaleDateString()}
-                        </span>
+                        <div className="order-details mb-6">
+                            <div className="order-title flex justify-between items-center pb-4">
+                                <h2 className="text-mainText text-2xl font-semibold">Order #{order.id}</h2>
+                                <span className="text-gray-600 text-xs">
+                                    {new Date(order.orderDate).toLocaleDateString()}
+                                </span>
                             </div>
-                            <div className="order-user flex flex-col items-start pt-0 px-4 pb-4">
-                                <p className="text-sm text-mainText font-semibold">
-                                    Customer: {order.userName}
-                                </p>
+                            <div className="order-user flex flex-col items-start pb-4">
+                                <p className="text-sm text-mainText font-semibold">Customer: {order.userName}</p>
                                 <p className="text-sm text-mainText">Email: {order.userEmail}</p>
                                 <p className="text-sm text-mainText">Phone: {order.userPhone}</p>
                                 <p className="text-sm text-mainText">Address: {order.userAddress}</p>
                             </div>
                         </div>
-                        <div className="order-items pt-0 px-4 pb-4">
-                            <div className="text-lg font-semibold text-mainText mb-2 text-center"> Order items: </div>
-                                {order.items.length > 0 ? (
-                                    <div className="order-items-list space-y-2">
-                                        {order.items.map((item: ProductInOrderInterface) => (
-                                            <div key={item.productName}
-                                                 className="order-item flex justify-between items-center">
-                                                <p className="text-sm text-mainText font-semibold">{item.productName}</p>
-                                                <p className="text-sm text-gray-500">x{item.quantity}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                ) : (
-                                    <div className="order-items-list space-y-2 text-gray-500 text-center">No items in this order</div>
-                                )}
-                        </div>
 
-                            <div className="order-action-button flex justify-between items-center px-1 gap-2">
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation(); // Prevent bubbling
-                                        setIsModalOpen(true);
-                                    }}
-                                    className="text-mainText bg-blue-500 p-2 rounded-lg text-white"
-                                >
-                                    View Details
-                                </button>
+                        <div className="order-items pb-4">
+                            <div className="text-lg font-semibold text-mainText mb-2 text-center">
+                                Order items:
                             </div>
-                            {isModalOpen && (
-                                <div
-                                    className="modal bg-black bg-opacity-50 fixed inset-0 flex justify-center items-center"
-                                    onClick={() => setIsModalOpen(false)}
-                                >
-                                    <div
-                                        className="modal-content bg-white p-4 rounded-lg"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <h2 className="text-mainText text-xl">Order #{order.id} Details</h2>
-                                        {/* Add modal content here */}
-                                        <button
-                                            onClick={() => setIsModalOpen(false)}
-                                            className="bg-red-500 text-white p-2 rounded-lg"
+                            {order.items.length > 0 ? (
+                                <div className="order-items-list space-y-2">
+                                    {order.items.map((item: ProductInOrderInterface) => (
+                                        <div
+                                            key={item.productName}
+                                            className="order-item flex justify-between items-center border-b py-2"
                                         >
-                                            Close
-                                        </button>
+                                            <div className="w-2/5 text-sm text-mainText font-semibold truncate">
+                                                {item.productName}
+                                            </div>
+                                            <div className="w-1/5 text-sm text-mainText font-semibold text-center">
+                                                {item.price}
+                                            </div>
+                                            <div className="w-1/5 text-sm text-mainText font-semibold text-center">
+                                                {item.itemTotal}
+                                            </div>
+                                            <div className="w-1/5 text-sm text-gray-500 text-center">x{item.quantity}</div>
+                                        </div>
+                                    ))}
+                                    <div className="text-lg font-semibold text-mainText mb-2 text-center">
+                                        Total Price: {order.totalOrderPrice}
                                     </div>
+                                </div>
+                            ) : (
+                                <div className="order-items-list space-y-2 text-gray-500 text-center">
+                                    No items in this order
                                 </div>
                             )}
                         </div>
-                        ))
-                        ) : (
-                        <div className="flex items-center justify-center min-h-screen text-mainText text-xl">
+
+                        <div className="order-action-button flex justify-center items-center gap-4 mt-6">
+                            <button onClick={() => handleGetOrderPdf(order.id)}
+                                    className="bg-blue-600 p-3 rounded-lg text-white font-semibold hover:bg-blue-700 transition-all duration-300 ease-in-out">
+                                Get Order's Pdf
+                            </button>
+                        </div>
+
+                        <div className="bottom-4 right-4">
+                            <Trash
+                                onClick={() => handleDeleteProduct(order.id)}
+                                className="cursor-pointer text-gray-700 hover:text-red-500 duration-300 ease-in-out hover:scale-110"
+                            />
+                        </div>
+                    </div>
+                ))
+            ) : (
+                <div className="flex items-center justify-center min-h-screen text-mainText text-xl">
                     No orders found.
                 </div>
             )}
         </div>
-
     );
 };

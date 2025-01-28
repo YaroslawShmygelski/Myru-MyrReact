@@ -53,22 +53,26 @@ export const ProductCardsGrid = () => {
 
   return (
     <div className="max-w-screen-2xl mx-auto px-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="w-full h-full flex justify-center items-stretch min-w-[255px]"
-          >
-            <ProductCard
-              id={product.id}
-              title={product.title}
-              description={product.description}
-              image={product.image}
-              price={product.price}
-            />
+      {products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {products.map((product) => (
+                <div
+                    key={product.id}
+                    className="w-full h-full flex justify-center items-stretch min-w-[255px]"
+                >
+                  <ProductCard
+                      id={product.id}
+                      title={product.title}
+                      description={product.description}
+                      image={product.image}
+                      price={product.price}
+                  />
+                </div>
+            ))}
           </div>
-        ))}
-      </div>
+      ) : <div className="flex items-center justify-center min-h-screen text-mainText text-xl">
+        No Products found.
+      </div>}
     </div>
   );
 };

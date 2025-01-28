@@ -22,11 +22,14 @@ export interface OrderInterface {
   "userEmail": string,
   "userPhone": string,
   "userAddress": string
+  "totalOrderPrice": number,
 }
 
 export interface ProductInOrderInterface {
   id: number;
   productName: string;
   quantity: number;
+  "price": number;
+  "itemTotal": number;
 }
 

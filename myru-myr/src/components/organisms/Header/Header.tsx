@@ -22,9 +22,9 @@ export const Header = () => {
                                 }`
                             }
                         >
-              <span className="text-xl tracking-wide hover:text-lightGray">
-                Home
-              </span>
+                              <span className="text-xl tracking-wide hover:text-lightGray">
+                                Home
+                              </span>
                         </NavLink>
                     </li>
                     <li>
@@ -36,9 +36,9 @@ export const Header = () => {
                                 }`
                             }
                         >
-              <span className="text-xl tracking-wide hover:text-lightGray">
-                Shop
-              </span>
+                              <span className="text-xl tracking-wide hover:text-lightGray">
+                                Shop
+                              </span>
                         </NavLink>
                     </li>
                     <li>
@@ -50,9 +50,23 @@ export const Header = () => {
                                 }`
                             }
                         >
-              <span className="text-xl tracking-wide hover:text-lightGray">
-                Create Product
-              </span>
+                              <span className="text-xl tracking-wide hover:text-lightGray">
+                                Create Product
+                              </span>
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/orders"
+                            className={({isActive}) =>
+                                `relative pb-1 before:content-[''] before:absolute before:w-full before:h-[2px] before:bottom-0 before:left-0 before:bg-white before:scale-x-0 before:origin-left before:transition-transform before:duration-300 hover:before:scale-x-100 ${
+                                    isActive ? "font-bold text-mainText" : ""
+                                }`
+                            }
+                        >
+                              <span className="text-xl tracking-wide hover:text-lightGray">
+                                Your Orders
+                              </span>
                         </NavLink>
                     </li>
                 </ul>

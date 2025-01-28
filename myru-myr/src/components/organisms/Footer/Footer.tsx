@@ -41,6 +41,18 @@ export const Footer = () => {
                             Create Product
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink
+                            to="/orders"
+                            className={({isActive}) =>
+                                `relative pb-1 before:content-[''] before:absolute before:w-full before:h-[2px] before:bottom-0 before:left-0 before:bg-white before:scale-x-0 before:origin-left before:transition-transform before:duration-300 hover:before:scale-x-100 ${
+                                    isActive ? "font-bold text-white" : "text-lightGray"
+                                }`
+                            }
+                        >
+                            Your Orders
+                        </NavLink>
+                    </li>
                 </ul>
 
                 <div className="mt-4">
@@ -58,7 +70,7 @@ export const Footer = () => {
                 </div>
                 <p className="text-sm mt-4">Designed with
                     <span className="text-red-500"> ♥ </span>
-                    by Yaroslav Shmyhelskyi
+                        by Yaroslav Shmyhelskyi
                 </p>
                 <p className="text-sm mt-4">&copy; 2025 My E-Commerce Store. All rights reserved.</p>
             </div>

@@ -32,10 +32,16 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
     const [clientPhoneError, setClientPhoneError] = useState<string | null>(null);
     const [clientEmailError, setClientEmailError] = useState<string | null>(null);
     const [showAlert, setShowAlert] = useState<boolean>(false);
+    const [buttonState, setButtonState] = useState<boolean>(true);
 
     const validateEmail = (email: string) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+    };
+
+    const validatePhoneNumber = (phone: string) => {
+        const phoneRegex = /^\+48\(\d{9}\)$/;
+        return phoneRegex.test(phone);
     };
 
     const handleCreateOrder = async () => {
@@ -58,8 +64,8 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
         if (!clientPhone) {
             setClientPhoneError("Client phone is required");
             hasError = true;
-        } else if (!/^\d{10}$/.test(clientPhone)) {
-            setClientPhoneError("Phone number must be 10 digits");
+        } else if (!validatePhoneNumber(clientPhone)) {
+            setClientPhoneError("Phone number must be in the format +48(*********)");
             hasError = true;
         } else {
             setClientPhoneError(null);
@@ -75,30 +81,25 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
             setClientEmailError(null);
         }
 
+        setButtonState(hasError);
+
         if (!hasError) {
-            console.log("Order placed successfully", {clientName, clientAddress, clientPhone, clientEmail});
-        }
+            try {
+                const items = products.map((product) => ({
+                    productId: product.id,
+                    quantity: product.quantity,
+                }));
 
-        try {
-            const items = products.map((product) =>
-                (
-                    {
-                        "productId": product.id,
-                        "quantity": product.quantity
-                    }
-                ))
-            console.log(items);
-            const response = await createOrder(clientName, clientAddress, clientPhone, clientEmail, items);
-            console.log(response);
-            if (response.id) {
-                setShowAlert(true);
-                setTimeout(()=>{
-                    setCartOpen(false);
-                }, 1000)
-
+                const response = await createOrder(clientName, clientAddress, clientPhone, clientEmail, items);
+                if (response.order.id) {
+                    setShowAlert(true);
+                    setTimeout(() => {
+                        setCartOpen(false);
+                    }, 1000);
+                }
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log(error);
         }
     };
 
@@ -108,22 +109,17 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
 
     return (
         <div className="cart-overlay">
-            {showAlert && (
-                <Alert url={"/"} title={"Order Created Successfully"}/>
-            )}
+            {showAlert && <Alert url="/orders" title="Order Created Successfully" />}
             <motion.div
                 className="cart-window"
                 onClick={(e) => e.stopPropagation()}
-                initial={{opacity: 0.5, y: -200}}
-                animate={{opacity: 1, y: 0}}
-                exit={{opacity: 0.5, y: 50}}
-                transition={{duration: 0.3}}
+                initial={{ opacity: 0.5, y: -200 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0.5, y: 50 }}
+                transition={{ duration: 0.3 }}
             >
-                <button
-                    className="cart-close-button"
-                    onClick={() => setCartOpen(false)}
-                >
-                    <X size={24}/>
+                <button className="cart-close-button" onClick={() => setCartOpen(false)}>
+                    <X size={24} />
                 </button>
 
                 <div className="mb-4">
@@ -215,6 +211,7 @@ export const CartWindow = ({isOpen, setCartOpen}: CartWindowProps) => {
                         onClick={handleCreateOrder}
                         text="Place Order"
                         isCartButton={false}
+                        isAble={buttonState} // Disable button if there's an error
                     />
                 </div>
             </motion.div>
