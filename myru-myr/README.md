@@ -48,3 +48,32 @@ export default tseslint.config({
   },
 })
 ```
+
+### Running the Project
+
+To run this project locally, follow these steps:
+
+1. **Clone the repository**
+
+   Clone the repository to your local machine:
+
+   `git clone git@github.com:SnippetShareOrg/frontend.git`
+
+   `cd frontend`
+
+2. **Install dependencies**
+
+   Ensure Node.js and npm are installed on your machine. Then install the project dependencies:
+
+   `npm install`
+
+3. **Start the project**
+
+   Once the dependencies are installed, start the project:
+
+   `npm run dev`
+
+4. **Environment variables configuration**
+   1. To use it you need to create .env file
+   2. You can use it in code within: `process.env.BACKEND_URL`
+   3. There is also .env.dist to facilitate Env variables config
